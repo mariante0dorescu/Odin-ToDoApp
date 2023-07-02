@@ -18,9 +18,9 @@
         <h2 class="content__title">Projects</h2>
         <button class="btn" id="add_project"><i class="fa-solid fa-plus"></i>Add project</button>
         <div class="add__project">
-          <form action="#" class="project__form">
+          <form action="#" class="form">
             <input type="text" class="input_text" id="addProjectName" placeholder="Project Name" required>
-            <div class="project__form--controls">
+            <div class="form__controls">
               <button class="btn add" type="submit">Add</button>
               <button class="btn reset" type="reset">Cancel</button>
             </div>
@@ -31,6 +31,20 @@
         <div class="tasks__container--top">
           <h2 class="header">Today</h2>
           <button class="btn active" id="add_task"><i class="fa-solid fa-plus"></i>Add task</button>
+        </div>
+        <div class="tasks__container--add-task active">
+          <form action="#" class="form" id="addProject">
+            <label for="task_name">Name</label>
+            <input type="text" class="input_text" id="task_name" name="task_name" placeholder="Task Name" required>
+            <label for="task_description">Notes</label>
+            <input type="text" class="input_text" id="task_description" name="task_description" placeholder="Notes" required>
+            <label for="task_dueDate">Due Date</label>
+            <input type="date" class="input_text" id="task_dueDate" name="task_dueDate" value="2023-02-07" required>
+            <div class="form__controls">
+              <button class="btn add" type="submit">Add</button>
+              <button class="btn reset" type="reset">Cancel</button>
+            </div>
+          </form>
         </div>
         <div class="tasks__container--bottom">
           <div class="task__box">
