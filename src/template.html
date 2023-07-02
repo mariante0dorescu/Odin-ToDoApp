@@ -3,9 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://kit.fontawesome.com/58f424809e.js" crossorigin="anonymous"></script>
   <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
-
+  <div class="container">
+    <header class="header">
+      <h1 class="header__logo">My ToDo List</h1>
+    </header>
+    <main class="content">
+      <aside class="content__links">
+        <button class="btn" id="today"><i class="fa-sharp fa-solid fa-calendar-day"></i>Today</button>
+        <button class="btn" id="next_week"><i class="fa-solid fa-calendar-week"></i>Next Week</button>
+        <h2 class="content__title">Projects</h2>
+        <button class="btn" id="add_project"><i class="fa-solid fa-plus"></i>Add project</button>
+      </aside>
+      <section class="tasks__container">
+        <div class="tasks__container--top">
+          <h2 class="header">Today</h2>
+          <button class="btn active" id="add_task"><i class="fa-solid fa-plus"></i>Add task</button>
+        </div>
+        <div class="tasks__container--bottom"></div>
+      </section>
+    </main>
+    <footer class="footer">&copy; Marian Teodorescu</footer>
+  </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
-$body-color: red;
-
-body {
-  background-color: $body-color;
-}
+@use "_reset";
+@use "_normalize";
+@use "_colors";
+@use "_base";
+@use "_layout";

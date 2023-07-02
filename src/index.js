@@ -1,12 +1,12 @@
 import './styles/main.scss';
 
-function component() {
-  const element = document.createElement('div');
+// function component() {
+//   const element = document.createElement('div');
 
 
-  element.innerHTML = `hello`;
+//   element.innerHTML = `hello`;
 
-  return element;
-}
+//   return element;
+// }
 
-document.body.appendChild(component());
+// document.body.appendChild(component());
