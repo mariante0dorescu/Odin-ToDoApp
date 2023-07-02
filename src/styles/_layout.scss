@@ -6,13 +6,61 @@
  
   .links__container{
     padding: 2rem 2rem;
-    //min-width: 15%;
+    min-width: 200px;
     border-right: 1px solid white;
 
     & > h2{
       margin-top: 3rem;
       font-weight: 700;
       font-size: 1.2rem;
+    }
+
+    .add__project{
+      display: none;
+
+      & + .active {
+         display: block;
+      }
+
+      & .project__form{
+        & > input {
+          padding: 0.5rem 0.75rem;
+          outline: none;
+          border: 1px solid var(--color-grey-dark);
+          border-radius: 5px;
+        }
+
+        &--controls{
+          margin-top: 1rem;
+          display: flex;
+          justify-content: space-around;
+          gap: 2rem;
+
+          & >.add,
+          & >.reset{
+            text-align: center;
+            flex: 0 1 50%;
+            color: #fff;
+            border-radius: 5px;
+          }
+
+          & >.add {
+            background: var(--accent-color);
+            
+            &:hover{
+              background: var(--info-color);
+            }
+          }
+
+          & >.reset {
+            background: var(--delete-color);
+
+            &:hover{
+              background: var(--info-color);
+            }
+          }
+        }
+      }
     }
   }
 
