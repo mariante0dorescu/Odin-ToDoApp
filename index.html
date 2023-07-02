@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://kit.fontawesome.com/58f424809e.js" crossorigin="anonymous"></script>
   <title>Odin ToDo App</title>
-<script defer src="main.9d4b6ea731be70396dce.js"></script></head>
+<script defer src="main.e562cc8232c36f4057f8.js"></script></head>
 <body>
   <div class="container">
     <header class="header">
       <h1 class="header__logo">My ToDo List</h1>
     </header>
     <main class="content">
-      <aside class="content__links">
+      <aside class="links__container">
         <button class="btn" id="today"><i class="fa-sharp fa-solid fa-calendar-day"></i>Today</button>
         <button class="btn" id="next_week"><i class="fa-solid fa-calendar-week"></i>Next Week</button>
         <h2 class="content__title">Projects</h2>
@@ -23,7 +23,46 @@
           <h2 class="header">Today</h2>
           <button class="btn active" id="add_task"><i class="fa-solid fa-plus"></i>Add task</button>
         </div>
-        <div class="tasks__container--bottom"></div>
+        <div class="tasks__container--bottom">
+          <div class="task__box">
+            <span id="taskTag" class="tag"></span>
+            <h2>Supervisor</h2>
+            <p>Monitors activity to identify project roadblocks</p>
+            <div class="task__controls">
+              <div class="tooltip">
+                <button class="btn__control" id="edit_task"><i class="fa-solid fa-pen-to-square"></i></button>
+                <span class="tooltiptext">Edit</span>
+              </div>
+              <div class="tooltip">
+                <button class="btn__control" id="complete_task"><i class="fa-solid fa-square-check"></i></button>
+                <span class="tooltiptext">Mark as complete</span>
+              </div>
+              <div class="tooltip">
+                <button class="btn__control" id="delete_task"><i class="fa-solid fa-trash-can"></i></button>
+                <span class="tooltiptext">Delete Task</span>
+              </div>
+            </div>
+          </div>
+          <div class="task__box completed">
+            <span id="taskTag" class="tag"></span>
+            <h2>Supervisor</h2>
+            <p>Monitors activity to identify project roadblocks</p>
+            <div class="task__controls">
+              <div class="tooltip">
+                <button class="btn__control" id="edit_task"><i class="fa-solid fa-pen-to-square"></i></button>
+                <span class="tooltiptext">Edit Task</span>
+              </div>
+              <div class="tooltip">
+                <button class="btn__control" id="complete_task"><i class="fa-solid fa-square-check"></i></button>
+                <span class="tooltiptext">Mark as completed</span>
+              </div>
+              <div class="tooltip">
+                <button class="btn__control" id="delete_task"><i class="fa-solid fa-trash-can"></i></button>
+                <span class="tooltiptext">Delete Task</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
     </main>
     <footer class="footer">&copy; Marian Teodorescu</footer>
