@@ -21,6 +21,12 @@
       display: none;
       opacity: 0;
   }
+
+  #projects{
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
 .form{
@@ -50,17 +56,6 @@
     border-radius: 5px;
     margin-bottom: 1rem;
   }
-
-  // &__top{
-  //   display: flex;
-  //   align-items: center;
-  //   justify-content: space-between;
-
-  //   & > input {
-  //     width: 70%
-  //   }
-  // }
-
 
   &__controls{
     display: flex;    
@@ -125,7 +120,6 @@
 
 
     &--add-task{
-      // align-self: flex-end;
       z-index: 100;
       position: absolute;
       top: 5rem;
@@ -139,37 +133,6 @@
       border-top: 5px solid var(--info-color);
       box-shadow: 0px 15px 40px -25px var(--color-grey-dark);
 
-
-    
-      // & > .task_form{
-      //   visibility: visible;
-      //   opacity: 1;    
-            
-      //   display: flex;
-      //   flex-wrap: wrap;
-      //   flex-direction: column;
-      //   gap: 2rem;
-      //   justify-content: space-between;
-
-      //   & > input {
-      //     flex: 0 1 20%;
-      //     padding: 0.5rem 1rem;
-      //   }
-
-      //  & > .btn {
-      //   // flex: 1;  
-          
-      //     align-self: flex-start;  
-      //     text-align: center;
-      //     color: #fff;
-      //     background: var(--primary-color);
-      //     border-radius: 5px;
-
-      //      &:hover{
-      //       background: var(--accent-color);
-      //      }
-      //   }
-      //}
     }
 
 

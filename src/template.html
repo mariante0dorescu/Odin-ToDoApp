@@ -26,6 +26,7 @@
             </div>
           </form>
         </div>
+        <div id="projects"></div>
       </aside>
       <section class="tasks__container">
         <div class="tasks__container--top">
@@ -34,29 +35,39 @@
         </div>
         <div class="tasks__container--add-task">
           <form action="#" class="form" id="addTask">
-            <!-- <div class="form__top"> -->
-              <div>
+
+            <div>
                 <label for="task_name">Name</label>
                 <input type="text" class="input_text" id="task_name" name="task_name" placeholder="Enter the task name" required>
-              </div>
-              <div>
+            </div>
+
+            <div>
                 <label for="task_priority">Select Priority</label>
                 <select name="task_priority" id="task_priority" required>
-                <option value="" disabled="disabled" selected="selected">Priority</option>
-                <option class="high" value="high">High</option>
-                <option class="normal" value="normal">Normal</option>
-                <option class="low" value="low">Low</option>
-              </select>
-              <!-- </div> -->
+                  <option value="" disabled="disabled" selected="selected">Priority</option>
+                  <option class="high" value="high">High</option>
+                  <option class="normal" value="normal">Normal</option>
+                  <option class="low" value="low">Low</option>
+                </select>
             </div>
+            
+            <div>
+                <label for="projects">Select Project</label>
+                <select name="projects" id="projects">
+                  <option class="default" value="null">None</option>
+                </select>                
+            </div>
+
             <div>
               <label for="task_description">Notes</label>
               <input type="text" class="input_text" id="task_description" name="task_description" placeholder="Add your comment here" required>
             </div>        
+            
             <div>
               <label for="task_dueDate">Due Date</label>
-            <input type="date" class="input_text" id="task_dueDate" name="task_dueDate" value="2023-02-07" required>
+              <input type="date" class="input_text" id="task_dueDate" name="task_dueDate" value="2023-02-07" required>
             </div>
+
             <div class="form__controls">
               <button class="btn add" type="submit">Add</button>
               <button class="btn reset" type="reset">Cancel</button>
@@ -64,7 +75,7 @@
           </form>
         </div>
         <div class="tasks__container--bottom">
-          <div class="task__box">
+          <!-- <div class="task__box">
             <span id="taskTag" class="tag"></span>
             <h2>Supervisor</h2>
             <p>Monitors activity to identify project roadblocks</p>
@@ -81,8 +92,8 @@
                 <button class="btn__control" id="delete_task"><i class="fa-solid fa-trash-can"></i></button>
                 <span class="tooltiptext">Delete Task</span>
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div>
           <div class="task__box completed">
             <span id="taskTag" class="tag"></span>
             <h2>Supervisor</h2>
@@ -101,7 +112,7 @@
                 <span class="tooltiptext">Delete Task</span>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </section>
     </main>
