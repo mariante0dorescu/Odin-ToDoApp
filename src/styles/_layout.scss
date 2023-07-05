@@ -6,7 +6,7 @@
  
   .links__container{
     padding: 2rem 2rem;
-    min-width: 200px;
+    width: 16rem;
     border-right: 1px solid white;
     transition: visibility 0s, opacity 0.5s linear;
 
@@ -27,12 +27,23 @@
   display: flex;
   flex-direction: column;
   
-  & > label {
+  label {
+    margin-right: 1rem;
     margin-bottom: .5rem;
     font-size: 0.875rem;
+
   }
 
-  & > input {
+  & > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  input,
+  select,
+  option {
+
     padding: 0.5rem 0.75rem;
     outline: none;
     border: 1px solid var(--color-grey-dark);
@@ -40,13 +51,20 @@
     margin-bottom: 1rem;
   }
 
+  // &__top{
+  //   display: flex;
+  //   align-items: center;
+  //   justify-content: space-between;
+
+  //   & > input {
+  //     width: 70%
+  //   }
+  // }
+
+
   &__controls{
-    
-    margin-top: 1rem;
-    display: flex;
-    
+    display: flex;    
     justify-content: space-between;
-    gap: 2rem;
 
     & >.add,
     & >.reset{
@@ -76,6 +94,7 @@
 }
 
   .tasks__container{
+    position: relative;
     flex-grow: 1; 
     display: flex;
     flex-direction: column;
@@ -106,6 +125,11 @@
 
 
     &--add-task{
+      // align-self: flex-end;
+      z-index: 100;
+      position: absolute;
+      top: 5rem;
+      right:2rem;
       display: none;
       opacity: 0;
       transition: opacity 1s ease-in-out;

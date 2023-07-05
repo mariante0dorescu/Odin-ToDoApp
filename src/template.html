@@ -18,7 +18,7 @@
         <h2 class="content__title">Projects</h2>
         <button class="btn" id="add_project"><i class="fa-solid fa-plus"></i>Add project</button>
         <div class="add__project">
-          <form action="#" class="form">
+          <form action="#" id="addProject" class="form">
             <input type="text" class="input_text" id="addProjectName" placeholder="Project Name" required>
             <div class="form__controls">
               <button class="btn add" type="submit">Add</button>
@@ -32,14 +32,31 @@
           <h2 class="header">Today</h2>
           <button class="btn active" id="add_task"><i class="fa-solid fa-plus"></i>Add task</button>
         </div>
-        <div class="tasks__container--add-task active">
-          <form action="#" class="form" id="addProject">
-            <label for="task_name">Name</label>
-            <input type="text" class="input_text" id="task_name" name="task_name" placeholder="Task Name" required>
-            <label for="task_description">Notes</label>
-            <input type="text" class="input_text" id="task_description" name="task_description" placeholder="Notes" required>
-            <label for="task_dueDate">Due Date</label>
+        <div class="tasks__container--add-task">
+          <form action="#" class="form" id="addTask">
+            <!-- <div class="form__top"> -->
+              <div>
+                <label for="task_name">Name</label>
+                <input type="text" class="input_text" id="task_name" name="task_name" placeholder="Enter the task name" required>
+              </div>
+              <div>
+                <label for="task_priority">Select Priority</label>
+                <select name="task_priority" id="task_priority" required>
+                <option value="" disabled="disabled" selected="selected">Priority</option>
+                <option class="high" value="high">High</option>
+                <option class="normal" value="normal">Normal</option>
+                <option class="low" value="low">Low</option>
+              </select>
+              <!-- </div> -->
+            </div>
+            <div>
+              <label for="task_description">Notes</label>
+              <input type="text" class="input_text" id="task_description" name="task_description" placeholder="Add your comment here" required>
+            </div>        
+            <div>
+              <label for="task_dueDate">Due Date</label>
             <input type="date" class="input_text" id="task_dueDate" name="task_dueDate" value="2023-02-07" required>
+            </div>
             <div class="form__controls">
               <button class="btn add" type="submit">Add</button>
               <button class="btn reset" type="reset">Cancel</button>
