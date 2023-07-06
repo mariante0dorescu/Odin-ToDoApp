@@ -80,7 +80,7 @@ taskContainer.addEventListener('click', (e) => {
       Storage.completeTask(e.target);
       UI.loadTasks();
      } else if(e.target.id === "edit_task") {
-      console.log("edit")
+      UI.editTask(e.target)
      } 
      else {
       return;

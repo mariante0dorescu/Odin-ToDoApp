@@ -27,16 +27,13 @@ export default class Storage {
 
   static completeTask(el){
     const tasks = Storage.getTasks(); 
-    const id = el.closest('.task__box').id;
    
     tasks.forEach((task) => {
-      if(task.id === id){
+      if(task.id === Storage.getTaskID(el)){
         if(task.status === "completed"){
           task.status = "active";
-          //el.parentElement.querySelector('.tooltiptext').innerText = "Mark as complete"
         } else {
           task.status = "completed";
-          //el.parentElement.querySelector('.tooltiptext').innerHTML = "Mark as active"
         }
       }
     })
@@ -46,14 +43,38 @@ export default class Storage {
 
   static deleteTask(el){
     const tasks = Storage.getTasks(); 
-    const id = el.closest('.task__box').id    
+    //const id = el.closest('.task__box').id    
     tasks.forEach((task, index) => {
-      if(task.id === id){
+      if(task.id === Storage.getTaskID(el)){
         tasks.splice(index, 1);
       }
     })
 
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
+
+  static getTaskID(el){
+    const id = el.closest('.task__box').id;
+    return id;
+  }
+
+  static getTaskInfo(el) {
+    const tasks = Storage.getTasks();
+    const task = tasks.filter((t) => {return t.id === Storage.getTaskID(el)});
+    return task;
+  }
+
+  static updateTask(id,name, description, dueDate){
+    //console.log(id, name, description, dueDate)
+
+    const tasks = Storage.getTasks(); 
+    const index = tasks.findIndex((task) =>  task.id === id);
+    tasks[index].name = name;
+    tasks[index].description = description;
+    tasks[index].dueDate = dueDate;
+    
+    localStorage.setItem('odinTasks',JSON.stringify(tasks));
+  }
+ 
 }
 

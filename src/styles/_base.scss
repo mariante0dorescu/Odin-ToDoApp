@@ -68,10 +68,12 @@ footer{
   text-align: center;
 }
 
+.hidden{
+  display: none !important;
+}
+
 .active {
-  // display: block !important;
-  // opacity: 1 !important;
   display: block !important;
-          visibility: visible !important;
-          opacity: 1 !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }

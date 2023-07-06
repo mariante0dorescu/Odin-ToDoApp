@@ -185,20 +185,28 @@
         }
 
         &:hover{
-          transform: translateY(-3%);
+          transform: translateY(-1%);
           border-top: 5px solid var(--accent-color);
         }
 
-        & > h2 {
-          font-weight: 700;
-          font-size: 1.2rem;
-          margin-bottom: .5rem;
+        .task_info{
+          & > p,
+          & > h2{
+            margin-top: .5rem;
+            margin-bottom: .5rem;
+          }
+
+          & > h2 {
+            margin-top: 1.5rem;
+            font-weight: 700;
+            font-size: 1.2rem;
+          }
         }
 
-        & > img {
-          float: right;
-          max-height: 50px;
+        .task_edit{
+
         }
+
 
         .task__controls{
           margin-top: 2rem;
