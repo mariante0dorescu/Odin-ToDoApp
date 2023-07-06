@@ -65,7 +65,7 @@ taskContainer.addEventListener('click', (e) => {
       Storage.deleteTask(e.target);
      } else if(e.target.id === "complete_task") {
       Storage.completeTask(e.target);
-      UI.loadTasks();
+      UI.loadTasks("", Storage.getTasks());
      } else if(e.target.id === "edit_task") {
       UI.editTask(e.target)
      } 

@@ -78,6 +78,7 @@ export default class UI {
       const info = el.closest('.task__box').querySelector('.task_info');
       const controls = el.closest('.task__box').querySelector('.task__controls');
       const editContainer = el.closest('.task__box').querySelector('.task_edit');
+      editContainer.innerHTML=""
       
       info.classList.add('hidden');
       controls.classList.add('hidden');
@@ -118,10 +119,8 @@ export default class UI {
       const cancelBTN = document.createElement('button');
       cancelBTN.classList.add('btn');
       cancelBTN.classList.add('reset');
-      cancelBTN.setAttribute('type', 'resey')
+      cancelBTN.setAttribute('type', 'reset')
       cancelBTN.innerText = "Cancel"
-
-
 
       controlDiv.appendChild(updateBTN)
       controlDiv.appendChild(cancelBTN)
@@ -140,9 +139,14 @@ export default class UI {
         info.classList.remove('hidden');
         controls.classList.remove('hidden');
         editContainer.classList.add('hidden');
-        UI.loadTasks();
+        UI.loadTasks("All tasks", Storage.getTasks());
       })
 
+      cancelBTN.addEventListener('click', () => {
+        info.classList.remove('hidden');
+        controls.classList.remove('hidden');
+        editContainer.classList.add('hidden');
+      })
     }
 
   // add task to page

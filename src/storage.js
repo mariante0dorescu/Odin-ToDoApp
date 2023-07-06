@@ -9,14 +9,16 @@ export default class Storage {
     return tasks;
   }
 
-  static getTodayTasks(tasks){
-    tasks = Storage.getTasks();
+  static getTodayTasks(){
+    let tasks = Storage.getTasks();
     console.log(tasks)
     return tasks;
   }
 
-  static getNextWeekTasks(task){
+  static getNextWeekTasks(){
+    let tasks = Storage.getTasks();
     console.log(tasks)
+    return tasks;
   }
 
   static getProjects(){
@@ -38,7 +40,11 @@ export default class Storage {
   //   return books;
   // }
 
-  static addTask(task) {
+  static saveProjects(project){
+    
+  }
+
+  static saveTask(task) {
     const tasks = Storage.getTasks();    
     tasks.push(task);
     localStorage.setItem('odinTasks',JSON.stringify(tasks))
