@@ -39,6 +39,10 @@ aside{
   }
 }
 
+button > i, [data-prefix="fas"] {
+  pointer-events: none;
+}
+
 .btn {
   cursor: pointer;
   background-color: transparent;
@@ -48,6 +52,7 @@ aside{
   text-align: left;
   
   & > i{
+
     margin-right: .5rem;
   }
 

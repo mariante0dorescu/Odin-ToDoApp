@@ -25,9 +25,9 @@ export default class Storage {
     localStorage.setItem('odinTasks',JSON.stringify(tasks))
   }
 
-  static deleteTask(id){
+  static deleteTask(el){
     const tasks = Storage.getTasks(); 
-    console.log(tasks)
+    const id = el.closest('.task__box').id    
     tasks.forEach((task, index) => {
       if(task.id === id){
         tasks.splice(index, 1);

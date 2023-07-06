@@ -1,30 +1,11 @@
-import Task from './task'
-import Project from './project'
 import Storage from './storage';
 
 export default class UI {
 
   static loadTasks(){
-    //  const tasks = [
-    //   {
-    //     name: "Task One",
-    //     priority: "high",
-    //     notes: "test test test",
-    //     dueDate: "date",
-    //     status: "active",
-    //   },
-    //   {
-    //     name: "Task Two",
-    //     priority: "normal",
-    //     notes: "test test test",
-    //     dueDate: "date",
-    //     status: "completed",
-    //   },
-    // ];
 
     const tasks = Storage.getTasks();
-
-    tasks.forEach((book) => UI.addTasksToPage(book));
+    tasks.forEach((task) => UI.createTask(task));
   }
 
   static loadProjects(){
@@ -43,10 +24,13 @@ export default class UI {
     })
   }
 
+  // remove task from document
+  static deleteTask(el){
+    el.closest('.task__box').remove();
+  }
+
   // create div with task info
-  static addTasksToPage(task){
-    const container = document.querySelector('.tasks__container--bottom');
-    
+  static createTask(task){
     const div = document.createElement('div');
     div.classList.add('task__box');
     div.id = task.id;
@@ -69,7 +53,14 @@ export default class UI {
                 <span class="tooltiptext">Delete Task</span>
               </div>
     `;
-    container.appendChild(div)
+    UI.addTasksToPage(div)
+  }
+
+
+  // add task to page
+  static addTasksToPage(task){
+    const container = document.querySelector('.tasks__container--bottom');
+    container.appendChild(task);
   }
 
   // insert project list into page

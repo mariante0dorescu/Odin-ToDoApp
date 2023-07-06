@@ -8,13 +8,14 @@ import Storage from './storage';
 document.addEventListener('DOMContentLoaded', UI.loadTasks())
 document.addEventListener('DOMContentLoaded', UI.loadProjects())
 
+
 // show forms event listeners
 document.getElementById('add_task').addEventListener('click', () => UI.showTaskForm())
 document.getElementById('add_project').addEventListener('click', () => UI.showProjectForm())
 
 // create task event
 const taskForm = document.getElementById('addTask');
-taskForm.addEventListener('submit', (e) => {
+taskForm.addEventListener('submit', () => {
   //e.preventDefault();
 
   const taskName = taskForm.querySelector('#task_name');
@@ -48,25 +49,40 @@ cancelProjectForm.addEventListener('click', () => UI.showProjectForm());
 
 // edit / delete / mark complete task events
 
-const tasksContainer = document.querySelectorAll('.task__box');
+// const tasksContainer = document.querySelectorAll('.task__box');
+// tasksContainer.forEach((task) => task.addEventListener('click', (e) => { 
+//   e.preventDefault();
+//   console.log(e)
+//  const action = e.target.parentElement.id;
+//  const box = e.target.closest('.task__box');
 
+//  if(action === "delete_task"){
+//   box.remove()
+//   Storage.deleteTask(box.id);
+//  } else if(action === "complete_task") {
+//   console.log("complete")
+//  } else if(action === "edit_task") {
+//   console.log("edit")
+//  } 
+//  else {
+//   return;
+//  }
 
-tasksContainer.forEach((task) => task.addEventListener('click', (e) => {
- 
- const target = e.target.parentElement.id;
- const box = e.target.closest('.task__box');
+// })
+// )
 
- if(target === "delete_task"){
-  box.parentElement.remove(target)
-  Storage.deleteTask(box.id);
-
- } else if(target === "complete_task") {
-  console.log("complete")
- } else if(target === "edit_task") {
-  console.log("edit")
- } else {
-  return;
- }
-
+const taskContainer = document.querySelector('.tasks__container--bottom')
+taskContainer.addEventListener('click', (e) => {
+  
+  if(e.target.id === "delete_task"){      
+      UI.deleteTask(e.target)
+      Storage.deleteTask(e.target);
+     } else if(e.target.id === "complete_task") {
+      console.log("complete")
+     } else if(e.target.id === "edit_task") {
+      console.log("edit")
+     } 
+     else {
+      return;
+     }
 })
-)
