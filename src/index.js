@@ -5,8 +5,17 @@ import Project from './project'
 import Storage from './storage';
 
 // initial content load event
-document.addEventListener('DOMContentLoaded', UI.loadTasks())
+document.addEventListener('DOMContentLoaded', UI.loadTasks('All Tasks', Storage.getTasks()))
 document.addEventListener('DOMContentLoaded', UI.loadProjects())
+
+
+// load tasks
+const linksContainer = document.querySelector('.links__container');
+const todayTasks = linksContainer.querySelector('#today');
+const nextWeekTasks = linksContainer.querySelector('#next_week');
+
+todayTasks.addEventListener('click', () => UI.loadTasks('Today tasks', Storage.getTodayTasks()))
+nextWeekTasks.addEventListener('click', () => UI.loadTasks('Next week tasks', Storage.getNextWeekTasks()))
 
 
 // show forms event listeners
@@ -24,7 +33,7 @@ taskForm.addEventListener('submit', (e) => {
   
   const task = new Task(taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
   Storage.addTask(task);
-  UI.loadTasks();
+  UI.loadTasks('All Tasks', Storage.getTasks());
   UI.showTaskForm();
   UI.clearFields(taskForm);
 })
@@ -34,7 +43,7 @@ cancelTaskForm.addEventListener('click', () => UI.showTaskForm())
 
 
 //create project event
-const projectForm = document.getElementById('addProject');
+const projectForm = linksContainer.querySelector('#addProject');
 projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
@@ -47,28 +56,6 @@ cancelProjectForm.addEventListener('click', () => UI.showProjectForm());
 
 
 // edit / delete / mark complete task events
-
-// const tasksContainer = document.querySelectorAll('.task__box');
-// tasksContainer.forEach((task) => task.addEventListener('click', (e) => { 
-//   e.preventDefault();
-//   console.log(e)
-//  const action = e.target.parentElement.id;
-//  const box = e.target.closest('.task__box');
-
-//  if(action === "delete_task"){
-//   box.remove()
-//   Storage.deleteTask(box.id);
-//  } else if(action === "complete_task") {
-//   console.log("complete")
-//  } else if(action === "edit_task") {
-//   console.log("edit")
-//  } 
-//  else {
-//   return;
-//  }
-
-// })
-// )
 
 const taskContainer = document.querySelector('.tasks__container--bottom')
 taskContainer.addEventListener('click', (e) => {

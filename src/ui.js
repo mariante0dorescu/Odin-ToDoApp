@@ -2,24 +2,28 @@ import Storage from './storage';
 
 export default class UI {
 
-  static loadTasks(){
-    const container = document.querySelector('.tasks__container--bottom');
-    container.innerHTML = "";
+  static loadTasks(pageTitle, tasks){
+    const topContainer = document.querySelector('.tasks__container--top');
+    const bottomContainer = document.querySelector('.tasks__container--bottom');
+    const containerTitle = topContainer.querySelector('.header');
+    containerTitle.innerText = pageTitle;
 
-    const tasks = Storage.getTasks();
+    bottomContainer.innerHTML = "";
+
+    //const tasks = Storage.getTasks();
     tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
   }
 
   static loadProjects(){
-    const projects = [
-      {
-        name: 'test project'
-      },
-      {
-        name: 'test project2'
-      },
-    ];
-
+    // const projects = [
+    //   {
+    //     name: 'test project'
+    //   },
+    //   {
+    //     name: 'test project2'
+    //   },
+    // ];
+    const projects = Storage.getProjects();
     projects.forEach((project) =>  {
       UI.addProjectsToPage(project);
       UI.addProjectsToForm(project)
@@ -66,7 +70,7 @@ export default class UI {
     return div;
   }
 
-
+  // edit task: creates a from and edit the current task
     static editTask(el){
       const task = Storage.getTaskInfo(el);
       // console.log(Storage.getTaskID(el))
@@ -187,4 +191,6 @@ export default class UI {
       field.value = "";
     }
   }
+
+
 }

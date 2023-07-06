@@ -9,6 +9,25 @@ export default class Storage {
     return tasks;
   }
 
+  static getTodayTasks(tasks){
+    tasks = Storage.getTasks();
+    console.log(tasks)
+    return tasks;
+  }
+
+  static getNextWeekTasks(task){
+    console.log(tasks)
+  }
+
+  static getProjects(){
+    let tasks = Storage.getTasks();
+    const projectNames = tasks
+      .filter((task) => task.project !== null)
+      .map((task) => task.project);
+    console.log(projectNames);
+    return projectNames;
+  }
+
   // static getProjects(){
   //   let tasks;
   //   if(localStorage.getItem("odinProjects") === null) {
@@ -71,8 +90,7 @@ export default class Storage {
     const index = tasks.findIndex((task) =>  task.id === id);
     tasks[index].name = name;
     tasks[index].description = description;
-    tasks[index].dueDate = dueDate;
-    
+    tasks[index].dueDate = dueDate;    
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
  
