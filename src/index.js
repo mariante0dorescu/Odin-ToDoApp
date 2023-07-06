@@ -15,17 +15,16 @@ document.getElementById('add_project').addEventListener('click', () => UI.showPr
 
 // create task event
 const taskForm = document.getElementById('addTask');
-taskForm.addEventListener('submit', () => {
-  //e.preventDefault();
-
+taskForm.addEventListener('submit', (e) => {
+  e.preventDefault();
   const taskName = taskForm.querySelector('#task_name');
   const taskPriority = taskForm.querySelector('#task_priority');
   const taskDescription = taskForm.querySelector('#task_description');
   const taskDueDate = taskForm.querySelector('#task_dueDate');
   
   const task = new Task(taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
-  UI.addTasksToPage(task);
   Storage.addTask(task);
+  UI.loadTasks();
   UI.showTaskForm();
   UI.clearFields(taskForm);
 })
@@ -37,7 +36,7 @@ cancelTaskForm.addEventListener('click', () => UI.showTaskForm())
 //create project event
 const projectForm = document.getElementById('addProject');
 projectForm.addEventListener('submit', (e) => {
-  //e.preventDefault();
+  e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
   const project = new Project(projectName.value);
   UI.addProjectsToPage(project);
@@ -78,7 +77,8 @@ taskContainer.addEventListener('click', (e) => {
       UI.deleteTask(e.target)
       Storage.deleteTask(e.target);
      } else if(e.target.id === "complete_task") {
-      console.log("complete")
+      Storage.completeTask(e.target);
+      UI.loadTasks();
      } else if(e.target.id === "edit_task") {
       console.log("edit")
      } 

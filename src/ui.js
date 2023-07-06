@@ -3,9 +3,11 @@ import Storage from './storage';
 export default class UI {
 
   static loadTasks(){
+    const container = document.querySelector('.tasks__container--bottom');
+    container.innerHTML = "";
 
     const tasks = Storage.getTasks();
-    tasks.forEach((task) => UI.createTask(task));
+    tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
   }
 
   static loadProjects(){
@@ -29,6 +31,7 @@ export default class UI {
     el.closest('.task__box').remove();
   }
 
+
   // create div with task info
   static createTask(task){
     const div = document.createElement('div');
@@ -37,23 +40,27 @@ export default class UI {
     task.status === 'completed' ? div.classList.add('completed') : "";
     div.innerHTML = `
             <span id="taskTag" class="tag"></span>
+            <span id="taskTag">${task.priority.toUpperCase()}</span>
             <h2>${task.name}</h2>
-            <p>${task.notes}</p>
+            <p>${task.description}</p>
+            <p>${task.dueDate}</p>
             <div class="task__controls">
+            ${task.status === 'active' ? `
               <div class="tooltip">
                 <button class="btn__control" id="edit_task"><i class="fa-solid fa-pen-to-square"></i></button>
                 <span class="tooltiptext">Edit</span>
               </div>
+              ` : ""}
               <div class="tooltip">
                 <button class="btn__control" id="complete_task"><i class="fa-solid fa-square-check"></i></button>
-                <span class="tooltiptext">Mark as complete</span>
+                <span class="tooltiptext">${task.status === 'active' ?" Mark as complete" : " Mark as active"}</span>
               </div>
               <div class="tooltip">
                 <button class="btn__control" id="delete_task"><i class="fa-solid fa-trash-can"></i></button>
                 <span class="tooltiptext">Delete Task</span>
               </div>
     `;
-    UI.addTasksToPage(div)
+    return div;
   }
 
 
@@ -79,10 +86,6 @@ export default class UI {
     projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
   }
 
-  // create task from task form input
-  // addTask() {
-
-  // }
 
   // show task form
   static showTaskForm() {

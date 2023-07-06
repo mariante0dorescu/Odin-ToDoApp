@@ -25,6 +25,25 @@ export default class Storage {
     localStorage.setItem('odinTasks',JSON.stringify(tasks))
   }
 
+  static completeTask(el){
+    const tasks = Storage.getTasks(); 
+    const id = el.closest('.task__box').id;
+   
+    tasks.forEach((task) => {
+      if(task.id === id){
+        if(task.status === "completed"){
+          task.status = "active";
+          //el.parentElement.querySelector('.tooltiptext').innerText = "Mark as complete"
+        } else {
+          task.status = "completed";
+          //el.parentElement.querySelector('.tooltiptext').innerHTML = "Mark as active"
+        }
+      }
+    })
+
+    localStorage.setItem('odinTasks',JSON.stringify(tasks));
+  }
+
   static deleteTask(el){
     const tasks = Storage.getTasks(); 
     const id = el.closest('.task__box').id    
