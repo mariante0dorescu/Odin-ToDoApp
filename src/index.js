@@ -4,18 +4,36 @@ import Task from './task'
 import Project from './project'
 import Storage from './storage';
 
+// variable with location set
+let position;
+
 // initial content load event
 document.addEventListener('DOMContentLoaded', UI.loadTasks('All Tasks', Storage.getTasks()))
 document.addEventListener('DOMContentLoaded', UI.loadProjects(Storage.getProjects()))
 
 
-// load tasks
+// tasks event listeners
 const linksContainer = document.querySelector('.links__container');
 const todayTasks = linksContainer.querySelector('#today');
 const nextWeekTasks = linksContainer.querySelector('#next_week');
 
-todayTasks.addEventListener('click', () => UI.loadTasks('Today tasks', Storage.getTodayTasks()))
-nextWeekTasks.addEventListener('click', () => UI.loadTasks('Next week tasks', Storage.getNextWeekTasks()))
+// project event listener
+const projectsContainer = document.querySelector('#projects')
+projectsContainer.addEventListener('click', (e) => {
+  const target = e.target.id;
+  UI.loadTasks(target + ' tasks', Storage.getProjectTasks(target));
+})
+
+todayTasks.addEventListener('click', () => {
+  position = 'Today';
+  UI.loadTasks(position + ' tasks', Storage.getTodayTasks())
+})
+
+nextWeekTasks.addEventListener('click', () => {
+  position = 'Next week';
+  UI.loadTasks(position + ' tasks', Storage.getNextWeekTasks())
+
+})
 
 
 // show forms event listeners
@@ -32,12 +50,18 @@ taskForm.addEventListener('submit', (e) => {
   const taskDueDate = taskForm.querySelector('#task_dueDate');
   
   const task = new Task(taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
-  Storage.addTask(task);
+ 
+  
+  if(position == 'Today' || position === 'Next week' || position === 'All tasks') {
+    Storage.saveTask(task);
+  } else {
+    Storage.saveTaskInProject(location, task, task.id)
+  }
+
   UI.loadTasks('All Tasks', Storage.getTasks());
   UI.showTaskForm();
   UI.clearFields(taskForm);
 })
-
 const cancelTaskForm = taskForm.querySelector('.reset');
 cancelTaskForm.addEventListener('click', () => UI.showTaskForm())
 
@@ -58,7 +82,6 @@ cancelProjectForm.addEventListener('click', () => UI.showProjectForm());
 
 
 // edit / delete / mark complete task events
-
 const taskContainer = document.querySelector('.tasks__container--bottom')
 taskContainer.addEventListener('click', (e) => {
   

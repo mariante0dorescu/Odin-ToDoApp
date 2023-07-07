@@ -3,4 +3,8 @@ export default class Project {
     this.name = name;
     this.tasks = [];
   }
+
+  get tasks() {
+    return this.tasks;
+  }
 }
