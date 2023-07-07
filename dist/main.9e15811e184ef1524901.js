@@ -1216,7 +1216,11 @@ class Storage {
   //   return books;
   // }
 
-  static addTask(task) {
+  static saveProjects(project){
+    
+  }
+
+  static saveTask(task) {
     const tasks = Storage.getTasks();    
     tasks.push(task);
     localStorage.setItem('odinTasks',JSON.stringify(tasks))
@@ -1394,6 +1398,7 @@ class UI {
       const info = el.closest('.task__box').querySelector('.task_info');
       const controls = el.closest('.task__box').querySelector('.task__controls');
       const editContainer = el.closest('.task__box').querySelector('.task_edit');
+      editContainer.innerHTML=""
       
       info.classList.add('hidden');
       controls.classList.add('hidden');
@@ -1434,10 +1439,8 @@ class UI {
       const cancelBTN = document.createElement('button');
       cancelBTN.classList.add('btn');
       cancelBTN.classList.add('reset');
-      cancelBTN.setAttribute('type', 'resey')
+      cancelBTN.setAttribute('type', 'reset')
       cancelBTN.innerText = "Cancel"
-
-
 
       controlDiv.appendChild(updateBTN)
       controlDiv.appendChild(cancelBTN)
@@ -1456,9 +1459,14 @@ class UI {
         info.classList.remove('hidden');
         controls.classList.remove('hidden');
         editContainer.classList.add('hidden');
-        UI.loadTasks();
+        UI.loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTasks());
       })
 
+      cancelBTN.addEventListener('click', () => {
+        info.classList.remove('hidden');
+        controls.classList.remove('hidden');
+        editContainer.classList.add('hidden');
+      })
     }
 
   // add task to page
@@ -1665,7 +1673,7 @@ taskContainer.addEventListener('click', (e) => {
       _storage__WEBPACK_IMPORTED_MODULE_4__["default"].deleteTask(e.target);
      } else if(e.target.id === "complete_task") {
       _storage__WEBPACK_IMPORTED_MODULE_4__["default"].completeTask(e.target);
-      _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks();
+      _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTasks());
      } else if(e.target.id === "edit_task") {
       _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].editTask(e.target)
      } 
@@ -1678,4 +1686,4 @@ taskContainer.addEventListener('click', (e) => {
 
 /******/ })()
 ;
-//# sourceMappingURL=main.7081c4eb2a01c4dd0cde.js.map
+//# sourceMappingURL=main.9e15811e184ef1524901.js.map

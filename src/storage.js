@@ -9,39 +9,22 @@ export default class Storage {
     return tasks;
   }
 
-  static getTodayTasks(){
-    let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
-  }
-
-  static getNextWeekTasks(){
-    let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
-  }
-
   static getProjects(){
-    let tasks = Storage.getTasks();
-    const projectNames = tasks
-      .filter((task) => task.project !== null)
-      .map((task) => task.project);
-    console.log(projectNames);
-    return projectNames;
+    let projects;
+    if(localStorage.getItem("odinProjects") === null) {
+      projects = []
+    } else {
+      projects = JSON.parse(localStorage.getItem("odinProjects"));
+    }
+    
+    return projects;
   }
 
-  // static getProjects(){
-  //   let tasks;
-  //   if(localStorage.getItem("odinProjects") === null) {
-  //     books = []
-  //   } else {
-  //     books = JSON.parse(localStorage.getItem('odinProjects'));
-  //   }
-  //   return books;
-  // }
-
-  static saveProjects(project){
-    
+  static saveProject(project){
+    const projects = Storage.getProjects();    
+    projects.push(project);
+    console.log(projects)
+    localStorage.setItem("odinProjects",JSON.stringify(projects))
   }
 
   static saveTask(task) {
@@ -49,6 +32,30 @@ export default class Storage {
     tasks.push(task);
     localStorage.setItem('odinTasks',JSON.stringify(tasks))
   }
+
+
+  static getTodayTasks(){
+    let tasks = Storage.getTasks();
+    //console.log(tasks)
+    return tasks;
+  }
+
+  static getNextWeekTasks(){
+    let tasks = Storage.getTasks();
+    //console.log(tasks)
+    return tasks;
+  }
+
+  // static getProjects(){
+  //   let tasks = Storage.getTasks();
+  //   const projectNames = tasks
+  //     .filter((task) => task.project !== null)
+  //     .map((task) => task.project);
+  //   console.log(projectNames);
+  //   return projectNames;
+  // }
+
+
 
   static completeTask(el){
     const tasks = Storage.getTasks(); 

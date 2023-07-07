@@ -15,18 +15,13 @@ export default class UI {
   }
 
   static loadProjects(){
-    // const projects = [
-    //   {
-    //     name: 'test project'
-    //   },
-    //   {
-    //     name: 'test project2'
-    //   },
-    // ];
     const projects = Storage.getProjects();
+
+    const container = document.getElementById('projects');
+    container.innerHTML = "";
+
     projects.forEach((project) =>  {
-      UI.addProjectsToPage(project);
-      UI.addProjectsToForm(project)
+      container.appendChild(UI.addProjectsToPage(project))
     })
   }
 
@@ -157,19 +152,20 @@ export default class UI {
 
   // insert project list into page
   static addProjectsToPage(project) {
-    const container = document.getElementById('projects');
+    
     const projectBtn = document.createElement('button');
     projectBtn.classList.add('btn')
+    projectBtn.setAttribute('id', `${project.name}`)
     projectBtn.innerText = project.name;
-    container.appendChild(projectBtn)
+    return projectBtn;
   }
 
   // insert project list into form options
-  static addProjectsToForm(project){
-    const formContainer = document.querySelector('.tasks__container--add-task');
-    const projectsList = formContainer.querySelector('#projects');    
-    projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
-  }
+  // static addProjectsToForm(project){
+  //   const formContainer = document.querySelector('.tasks__container--add-task');
+  //   const projectsList = formContainer.querySelector('#projects');    
+  //   projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
+  // }
 
 
   // show task form

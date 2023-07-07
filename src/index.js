@@ -6,7 +6,7 @@ import Storage from './storage';
 
 // initial content load event
 document.addEventListener('DOMContentLoaded', UI.loadTasks('All Tasks', Storage.getTasks()))
-document.addEventListener('DOMContentLoaded', UI.loadProjects())
+document.addEventListener('DOMContentLoaded', UI.loadProjects(Storage.getProjects()))
 
 
 // load tasks
@@ -48,7 +48,9 @@ projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
   const project = new Project(projectName.value);
-  UI.addProjectsToPage(project);
+  Storage.saveProject(project);
+  UI.showProjectForm();
+  UI.loadProjects();
 })
 
 const cancelProjectForm = projectForm.querySelector('.reset');
