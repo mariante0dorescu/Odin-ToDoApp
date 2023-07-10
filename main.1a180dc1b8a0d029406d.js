@@ -1156,14 +1156,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Project)
 /* harmony export */ });
 class Project {
-  constructor(name, tasks) {
+  constructor(name) {
     this.name = name;
     this.tasks = [];
   }
 
-  get tasks() {
-    return this.tasks;
-  }
 }
 
 /***/ }),
@@ -1208,7 +1205,9 @@ class Storage {
     let tasks = Storage.getTasks(); // returns all tasks
     let projects = Storage.getProjects(); // returns all projects 
     let index = projects.findIndex((project) =>  project.name === name); // return index of the project
+    
     let tasksIDS = projects[index].tasks; // returns array with ids of tasks
+    
     let result = tasksIDS.map((id) => {
       return tasks.find((task) => {
         return task.id === id;
@@ -1222,17 +1221,34 @@ class Storage {
   // add new project to local storage
   static saveProject(project){
     const projects = Storage.getProjects();    
-    projects.push(project);
-    localStorage.setItem("odinProjects",JSON.stringify(projects))
+
+    Storage.getProjectStorageId(project.name);
+
+    // if(Storage.getProjectStorageId(project.name) < 0) {     
+    //   projects.push(project);
+    //   localStorage.setItem("odinProjects",JSON.stringify(projects))
+    // } 
   }
 
   // add new task to project
   static saveTaskInProject(projectName, id){
-    const projects = Storage.getProjects();
-    const index = projects.findIndex((project) => project.name = projectName);
+    // const projects = Storage.getProjects();
+    // const index = projects.findIndex((project) => project.name = projectName);
           
-    projects[index].tasks.push(id);
+    projects[getProjectStorageId(projectName)].tasks.push(id);
     localStorage.setItem("odinProjects",JSON.stringify(projects))
+  }
+
+  static deleteTaskFromProject(id){
+
+  }
+
+  // return the index of the project saved in storage, based on the name
+  static getProjectStorageId(projectName){
+    const projects = Storage.getProjects();
+    console.log(projects)
+    const index = projects.findIndex((project) => project.name = projectName);
+    return index;
   }
 
 
@@ -1522,6 +1538,9 @@ tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
     
     const formContainer = document.querySelector('.tasks__container--add-task');
     const projectsList = formContainer.querySelector('#projects');
+    projectsList.innerHTML = "";
+    projectsList.innerHTML = `<option class="default" value="none">No project</option>`;
+
     
     projects.forEach((project) => {
       projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
@@ -1648,8 +1667,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-// variable with location set
-let position;
+
 
 // initial content load event
 document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks('All Tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTasks()))
@@ -1659,8 +1677,28 @@ document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1_
 
 // tasks event listeners
 const linksContainer = document.querySelector('.links__container');
+const allTasks = linksContainer.querySelector('#all');
 const todayTasks = linksContainer.querySelector('#today');
 const nextWeekTasks = linksContainer.querySelector('#next_week');
+
+
+allTasks.addEventListener('click', () => {
+
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
+})
+
+
+todayTasks.addEventListener('click', () => {
+
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("Today's tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
+})
+
+nextWeekTasks.addEventListener('click', () => {
+
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("Next week tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getNextWeekTasks())
+
+})
+
 
 // project event listener
 const projectsContainer = document.querySelector('#projects')
@@ -1668,17 +1706,6 @@ projectsContainer.addEventListener('click', (e) => {
   const target = e.target.id;
   console.log(target)
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(target + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjectTasks(target));
-})
-
-todayTasks.addEventListener('click', () => {
-  position = 'Today';
-  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(position + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
-})
-
-nextWeekTasks.addEventListener('click', () => {
-  position = 'Next week';
-  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(position + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getNextWeekTasks())
-
 })
 
 
@@ -1697,8 +1724,9 @@ taskForm.addEventListener('submit', (e) => {
   const projectList = taskForm.querySelector('#projects');
   const project = projectList.options[projectList.selectedIndex].value 
   const task = new _task__WEBPACK_IMPORTED_MODULE_2__["default"](taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
+  
 
-  if(project !== null){
+  if(project !== "none"){
     _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveTaskInProject(project, task.id)
   } 
     
@@ -1718,8 +1746,10 @@ projectForm.addEventListener('submit', (e) => {
   const projectName = projectForm.querySelector('#addProjectName');
   const project = new _project__WEBPACK_IMPORTED_MODULE_3__["default"](projectName.value);
   _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveProject(project);
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].addProjectsToForm(_storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjects())
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].showProjectForm();
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadProjects();
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].clearFields(projectForm);
 })
 
 const cancelProjectForm = projectForm.querySelector('.reset');
@@ -1748,4 +1778,4 @@ taskContainer.addEventListener('click', (e) => {
 
 /******/ })()
 ;
-//# sourceMappingURL=main.1c99a31aa53cdb60173c.js.map
+//# sourceMappingURL=main.1a180dc1b8a0d029406d.js.map
