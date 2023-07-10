@@ -1,6 +1,6 @@
+import Task from './task'
+
 export default class Storage {
-
-
   // get tasks local save or epmty array
   static getTasks(){
     let tasks;
@@ -9,7 +9,13 @@ export default class Storage {
     } else {
       tasks = JSON.parse(localStorage.getItem('odinTasks'));
     }
-    return tasks;
+
+  let cl = [];
+   tasks.forEach((task) => {
+    cl.push(new Task(task.name, task.priority, task.description, task.dueDate, task.status, task.project))
+   })
+    
+    return cl;
   }
 
   // get project local save or epmty array
@@ -61,9 +67,6 @@ export default class Storage {
     localStorage.setItem("odinProjects",JSON.stringify(localProjects))
   }
 
-  // static deleteTaskFromProject(id){
-
-  // }
 
   // return the index of the project saved in storage, based on the name
   static getProjectStorageId(projectName){
@@ -85,7 +88,7 @@ export default class Storage {
   // get tasks with today's date
   static getTodayTasks(){
     let tasks = Storage.getTasks();
-    //console.log(tasks)
+    console.log(tasks)
     return tasks;
   }
 

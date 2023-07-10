@@ -12,7 +12,7 @@ export default class UI {
     bottomContainer.innerHTML = "";
 
     //const tasks = Storage.getTasks();
-tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
+    tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
   }
 
   static loadProjects(){
