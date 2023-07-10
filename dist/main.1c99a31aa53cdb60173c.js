@@ -1160,6 +1160,10 @@ class Project {
     this.name = name;
     this.tasks = [];
   }
+
+  get tasks() {
+    return this.tasks;
+  }
 }
 
 /***/ }),
@@ -1175,6 +1179,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Storage)
 /* harmony export */ });
 class Storage {
+
+
+  // get tasks local save or epmty array
   static getTasks(){
     let tasks;
     if(localStorage.getItem("odinTasks") === null) {
@@ -1185,47 +1192,73 @@ class Storage {
     return tasks;
   }
 
-  static getTodayTasks(){
-    let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
-  }
-
-  static getNextWeekTasks(){
-    let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
-  }
-
+  // get project local save or epmty array
   static getProjects(){
-    let tasks = Storage.getTasks();
-    const projectNames = tasks
-      .filter((task) => task.project !== null)
-      .map((task) => task.project);
-    console.log(projectNames);
-    return projectNames;
+    let projects;
+    if(localStorage.getItem("odinProjects") === null) {
+      projects = []
+    } else {
+      projects = JSON.parse(localStorage.getItem("odinProjects"));
+    }
+    return projects;
   }
 
-  // static getProjects(){
-  //   let tasks;
-  //   if(localStorage.getItem("odinProjects") === null) {
-  //     books = []
-  //   } else {
-  //     books = JSON.parse(localStorage.getItem('odinProjects'));
-  //   }
-  //   return books;
-  // }
+  // get project task based on the name of the project
+  static getProjectTasks(name) {
+    let tasks = Storage.getTasks(); // returns all tasks
+    let projects = Storage.getProjects(); // returns all projects 
+    let index = projects.findIndex((project) =>  project.name === name); // return index of the project
+    let tasksIDS = projects[index].tasks; // returns array with ids of tasks
+    let result = tasksIDS.map((id) => {
+      return tasks.find((task) => {
+        return task.id === id;
+      })
+    })
 
-  static saveProjects(project){
-    
+    return result;
+
   }
 
+  // add new project to local storage
+  static saveProject(project){
+    const projects = Storage.getProjects();    
+    projects.push(project);
+    localStorage.setItem("odinProjects",JSON.stringify(projects))
+  }
+
+  // add new task to project
+  static saveTaskInProject(projectName, id){
+    const projects = Storage.getProjects();
+    const index = projects.findIndex((project) => project.name = projectName);
+          
+    projects[index].tasks.push(id);
+    localStorage.setItem("odinProjects",JSON.stringify(projects))
+  }
+
+
+  // add task to local storage
   static saveTask(task) {
     const tasks = Storage.getTasks();    
     tasks.push(task);
-    localStorage.setItem('odinTasks',JSON.stringify(tasks))
+    localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
 
+  // get tasks with today's date
+  static getTodayTasks(){
+    let tasks = Storage.getTasks();
+    //console.log(tasks)
+    return tasks;
+  }
+
+  //get tasks with next week's date
+  static getNextWeekTasks(){
+    let tasks = Storage.getTasks();
+    //console.log(tasks)
+    return tasks;
+  }
+
+
+  // mark task completed in local storage
   static completeTask(el){
     const tasks = Storage.getTasks(); 
    
@@ -1242,6 +1275,7 @@ class Storage {
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
 
+  // delete task from local storage
   static deleteTask(el){
     const tasks = Storage.getTasks(); 
     //const id = el.closest('.task__box').id    
@@ -1254,20 +1288,21 @@ class Storage {
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
 
+  // helper - find index of task based on id
   static getTaskID(el){
     const id = el.closest('.task__box').id;
     return id;
   }
 
+  // helper - return the task from local storage based on id
   static getTaskInfo(el) {
     const tasks = Storage.getTasks();
     const task = tasks.filter((t) => {return t.id === Storage.getTaskID(el)});
     return task;
   }
 
+  // update task properties in local storage
   static updateTask(id,name, description, dueDate){
-    //console.log(id, name, description, dueDate)
-
     const tasks = Storage.getTasks(); 
     const index = tasks.findIndex((task) =>  task.id === id);
     tasks[index].name = name;
@@ -1275,7 +1310,6 @@ class Storage {
     tasks[index].dueDate = dueDate;    
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
- 
 }
 
 
@@ -1322,32 +1356,30 @@ __webpack_require__.r(__webpack_exports__);
 
 class UI {
 
-  static loadTasks(pageTitle, tasks){
+  static loadTasks(location, tasks){
+    // console.log(location)
     const topContainer = document.querySelector('.tasks__container--top');
     const bottomContainer = document.querySelector('.tasks__container--bottom');
     const containerTitle = topContainer.querySelector('.header');
-    containerTitle.innerText = pageTitle;
+    containerTitle.innerText = location;
 
     bottomContainer.innerHTML = "";
 
     //const tasks = Storage.getTasks();
-    tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
+tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
   }
 
   static loadProjects(){
-    // const projects = [
-    //   {
-    //     name: 'test project'
-    //   },
-    //   {
-    //     name: 'test project2'
-    //   },
-    // ];
     const projects = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getProjects();
+
+    const container = document.getElementById('projects');
+    container.innerHTML = "";
+
     projects.forEach((project) =>  {
-      UI.addProjectsToPage(project);
-      UI.addProjectsToForm(project)
+      container.appendChild(UI.addProjectsToPage(project))
     })
+
+    
   }
 
   // remove task from document
@@ -1355,9 +1387,9 @@ class UI {
     el.closest('.task__box').remove();
   }
 
-
   // create div with task info
   static createTask(task){
+   
     const div = document.createElement('div');
     div.classList.add('task__box');
     div.id = task.id;
@@ -1391,83 +1423,83 @@ class UI {
   }
 
   // edit task: creates a from and edit the current task
-    static editTask(el){
-      const task = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTaskInfo(el);
-      // console.log(Storage.getTaskID(el))
+  static editTask(el){
+    const task = _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTaskInfo(el);
+    // console.log(Storage.getTaskID(el))
 
-      const info = el.closest('.task__box').querySelector('.task_info');
-      const controls = el.closest('.task__box').querySelector('.task__controls');
-      const editContainer = el.closest('.task__box').querySelector('.task_edit');
-      editContainer.innerHTML=""
-      
-      info.classList.add('hidden');
-      controls.classList.add('hidden');
-      editContainer.classList.remove('hidden')
+    const info = el.closest('.task__box').querySelector('.task_info');
+    const controls = el.closest('.task__box').querySelector('.task__controls');
+    const editContainer = el.closest('.task__box').querySelector('.task_edit');
+    editContainer.innerHTML=""
+    
+    info.classList.add('hidden');
+    controls.classList.add('hidden');
+    editContainer.classList.remove('hidden')
 
-      const form = document.createElement('form');
-      form.classList.add("form");
-      form.setAttribute("action", "#")
-      form.setAttribute("id", "editTask");
+    const form = document.createElement('form');
+    form.classList.add("form");
+    form.setAttribute("action", "#")
+    form.setAttribute("id", "editTask");
 
-      const taskName = document.createElement('input');
-      taskName.classList.add("input_text");
-      taskName.setAttribute("id", "task_name");
-      taskName.setAttribute("type", "text");
-      taskName.setAttribute('value', `${task[0].name}`)
+    const taskName = document.createElement('input');
+    taskName.classList.add("input_text");
+    taskName.setAttribute("id", "task_name");
+    taskName.setAttribute("type", "text");
+    taskName.setAttribute('value', `${task[0].name}`)
 
-      const taskDesc = document.createElement('input');
-      taskDesc.classList.add("input_text");
-      taskDesc.setAttribute("id", "task_description");
-      taskDesc.setAttribute("type", "text");
-      taskDesc.setAttribute('value', `${task[0].description}`)
+    const taskDesc = document.createElement('input');
+    taskDesc.classList.add("input_text");
+    taskDesc.setAttribute("id", "task_description");
+    taskDesc.setAttribute("type", "text");
+    taskDesc.setAttribute('value', `${task[0].description}`)
 
-      const taskDate = document.createElement('input');
-      taskDate.classList.add("input_text");
-      taskDate.setAttribute("id", "task_dueDate");
-      taskDate.setAttribute("type", "date");
-      taskDate.setAttribute('value', `${task[0].dueDate}`)
+    const taskDate = document.createElement('input');
+    taskDate.classList.add("input_text");
+    taskDate.setAttribute("id", "task_dueDate");
+    taskDate.setAttribute("type", "date");
+    taskDate.setAttribute('value', `${task[0].dueDate}`)
 
-      const controlDiv = document.createElement('div');
-      controlDiv.classList.add('form__controls');
+    const controlDiv = document.createElement('div');
+    controlDiv.classList.add('form__controls');
 
-      const updateBTN = document.createElement('button');
-      updateBTN.classList.add('btn');
-      updateBTN.classList.add('add');
-      updateBTN.setAttribute('type', 'submit')
-      updateBTN.innerText = "Update"
+    const updateBTN = document.createElement('button');
+    updateBTN.classList.add('btn');
+    updateBTN.classList.add('add');
+    updateBTN.setAttribute('type', 'submit')
+    updateBTN.innerText = "Update"
 
-      const cancelBTN = document.createElement('button');
-      cancelBTN.classList.add('btn');
-      cancelBTN.classList.add('reset');
-      cancelBTN.setAttribute('type', 'reset')
-      cancelBTN.innerText = "Cancel"
+    const cancelBTN = document.createElement('button');
+    cancelBTN.classList.add('btn');
+    cancelBTN.classList.add('reset');
+    cancelBTN.setAttribute('type', 'reset')
+    cancelBTN.innerText = "Cancel"
 
-      controlDiv.appendChild(updateBTN)
-      controlDiv.appendChild(cancelBTN)
+    controlDiv.appendChild(updateBTN)
+    controlDiv.appendChild(cancelBTN)
 
-      form.appendChild(taskName);
-      form.appendChild(taskDesc);
-      form.appendChild(taskDate);
-      form.appendChild(controlDiv);
-      editContainer.appendChild(form);
+    form.appendChild(taskName);
+    form.appendChild(taskDesc);
+    form.appendChild(taskDate);
+    form.appendChild(controlDiv);
+    editContainer.appendChild(form);
 
-      form.addEventListener('submit', (e) => {
-        e.preventDefault()
+    form.addEventListener('submit', (e) => {
+      e.preventDefault()
 
-        _storage__WEBPACK_IMPORTED_MODULE_0__["default"].updateTask(_storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTaskID(el),taskName.value, taskDesc.value, taskDate.value);
+      _storage__WEBPACK_IMPORTED_MODULE_0__["default"].updateTask(_storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTaskID(el),taskName.value, taskDesc.value, taskDate.value);
 
-        info.classList.remove('hidden');
-        controls.classList.remove('hidden');
-        editContainer.classList.add('hidden');
-        UI.loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTasks());
-      })
+      info.classList.remove('hidden');
+      controls.classList.remove('hidden');
+      editContainer.classList.add('hidden');
+      UI.loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_0__["default"].getTasks());
+    })
 
-      cancelBTN.addEventListener('click', () => {
-        info.classList.remove('hidden');
-        controls.classList.remove('hidden');
-        editContainer.classList.add('hidden');
-      })
-    }
+    cancelBTN.addEventListener('click', () => {
+      info.classList.remove('hidden');
+      controls.classList.remove('hidden');
+      editContainer.classList.add('hidden');
+    })
+  }
 
   // add task to page
   static addTasksToPage(task){
@@ -1477,20 +1509,25 @@ class UI {
 
   // insert project list into page
   static addProjectsToPage(project) {
-    const container = document.getElementById('projects');
+    
     const projectBtn = document.createElement('button');
     projectBtn.classList.add('btn')
+    projectBtn.setAttribute('id', `${project.name}`)
     projectBtn.innerText = project.name;
-    container.appendChild(projectBtn)
+    return projectBtn;
   }
 
   // insert project list into form options
-  static addProjectsToForm(project){
+  static addProjectsToForm(projects){
+    
     const formContainer = document.querySelector('.tasks__container--add-task');
-    const projectsList = formContainer.querySelector('#projects');    
-    projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
+    const projectsList = formContainer.querySelector('#projects');
+    
+    projects.forEach((project) => {
+      projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
+    })
+    
   }
-
 
   // show task form
   static showTaskForm() {
@@ -1515,7 +1552,6 @@ class UI {
       field.value = "";
     }
   }
-
 
 }
 
@@ -1612,18 +1648,38 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+// variable with location set
+let position;
+
 // initial content load event
 document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks('All Tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTasks()))
-document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadProjects())
+document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadProjects(_storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjects()))
+document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].addProjectsToForm(_storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjects()))
 
 
-// load tasks
+// tasks event listeners
 const linksContainer = document.querySelector('.links__container');
 const todayTasks = linksContainer.querySelector('#today');
 const nextWeekTasks = linksContainer.querySelector('#next_week');
 
-todayTasks.addEventListener('click', () => _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks('Today tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks()))
-nextWeekTasks.addEventListener('click', () => _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks('Next week tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getNextWeekTasks()))
+// project event listener
+const projectsContainer = document.querySelector('#projects')
+projectsContainer.addEventListener('click', (e) => {
+  const target = e.target.id;
+  console.log(target)
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(target + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjectTasks(target));
+})
+
+todayTasks.addEventListener('click', () => {
+  position = 'Today';
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(position + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
+})
+
+nextWeekTasks.addEventListener('click', () => {
+  position = 'Next week';
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks(position + ' tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getNextWeekTasks())
+
+})
 
 
 // show forms event listeners
@@ -1638,14 +1694,19 @@ taskForm.addEventListener('submit', (e) => {
   const taskPriority = taskForm.querySelector('#task_priority');
   const taskDescription = taskForm.querySelector('#task_description');
   const taskDueDate = taskForm.querySelector('#task_dueDate');
-  
+  const projectList = taskForm.querySelector('#projects');
+  const project = projectList.options[projectList.selectedIndex].value 
   const task = new _task__WEBPACK_IMPORTED_MODULE_2__["default"](taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
-  _storage__WEBPACK_IMPORTED_MODULE_4__["default"].addTask(task);
+
+  if(project !== null){
+    _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveTaskInProject(project, task.id)
+  } 
+    
+  _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveTask(task);
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks('All Tasks', _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTasks());
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].showTaskForm();
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].clearFields(taskForm);
 })
-
 const cancelTaskForm = taskForm.querySelector('.reset');
 cancelTaskForm.addEventListener('click', () => _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].showTaskForm())
 
@@ -1656,7 +1717,9 @@ projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
   const project = new _project__WEBPACK_IMPORTED_MODULE_3__["default"](projectName.value);
-  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].addProjectsToPage(project);
+  _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveProject(project);
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].showProjectForm();
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadProjects();
 })
 
 const cancelProjectForm = projectForm.querySelector('.reset');
@@ -1664,7 +1727,6 @@ cancelProjectForm.addEventListener('click', () => _ui_js__WEBPACK_IMPORTED_MODUL
 
 
 // edit / delete / mark complete task events
-
 const taskContainer = document.querySelector('.tasks__container--bottom')
 taskContainer.addEventListener('click', (e) => {
   
@@ -1686,4 +1748,4 @@ taskContainer.addEventListener('click', (e) => {
 
 /******/ })()
 ;
-//# sourceMappingURL=main.9e15811e184ef1524901.js.map
+//# sourceMappingURL=main.1c99a31aa53cdb60173c.js.map

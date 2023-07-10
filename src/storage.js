@@ -20,15 +20,25 @@ export default class Storage {
     } else {
       projects = JSON.parse(localStorage.getItem("odinProjects"));
     }
-    // console.log(projects)
     return projects;
   }
 
   // get project task based on the name of the project
   static getProjectTasks(name) {
-    let projects = Storage.getProjects();
-    let index = projects.findIndex((project) =>  project.name === name);
-    return projects[index].tasks;
+    let tasks = Storage.getTasks(); // returns all tasks
+    let projects = Storage.getProjects(); // returns all projects 
+    let index = projects.findIndex((project) =>  project.name === name); // return index of the project
+    
+    let tasksIDS = projects[index].tasks; // returns array with ids of tasks
+    
+    let result = tasksIDS.map((id) => {
+      return tasks.find((task) => {
+        return task.id === id;
+      })
+    })
+
+    return result;
+
   }
 
   // add new project to local storage
@@ -39,10 +49,11 @@ export default class Storage {
   }
 
   // add new task to project
-  static saveTaskInProject(projectName, task){
-    Storage.saveTask(task);
-    const projects = Storage.getProjects();    
-    projects[projectName].push(task.id);
+  static saveTaskInProject(projectName, id){
+    const projects = Storage.getProjects();
+    const index = projects.findIndex((project) => project.name = projectName);
+          
+    projects[index].tasks.push(id);
     localStorage.setItem("odinProjects",JSON.stringify(projects))
   }
 
@@ -51,7 +62,7 @@ export default class Storage {
   static saveTask(task) {
     const tasks = Storage.getTasks();    
     tasks.push(task);
-    localStorage.setItem('odinTasks',JSON.stringify(tasks))
+    localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
 
   // get tasks with today's date

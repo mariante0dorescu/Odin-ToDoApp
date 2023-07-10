@@ -3,7 +3,7 @@ import Storage from './storage';
 export default class UI {
 
   static loadTasks(location, tasks){
-    console.log(location)
+    // console.log(location)
     const topContainer = document.querySelector('.tasks__container--top');
     const bottomContainer = document.querySelector('.tasks__container--bottom');
     const containerTitle = topContainer.querySelector('.header');
@@ -12,7 +12,7 @@ export default class UI {
     bottomContainer.innerHTML = "";
 
     //const tasks = Storage.getTasks();
-    tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
+tasks.forEach((task) => UI.addTasksToPage(UI.createTask(task)));
   }
 
   static loadProjects(){
@@ -35,6 +35,7 @@ export default class UI {
 
   // create div with task info
   static createTask(task){
+   
     const div = document.createElement('div');
     div.classList.add('task__box');
     div.id = task.id;
@@ -163,11 +164,19 @@ export default class UI {
   }
 
   // insert project list into form options
-  // static addProjectsToForm(project){
-  //   const formContainer = document.querySelector('.tasks__container--add-task');
-  //   const projectsList = formContainer.querySelector('#projects');    
-  //   projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
-  // }
+  static addProjectsToForm(projects){
+    
+    const formContainer = document.querySelector('.tasks__container--add-task');
+    const projectsList = formContainer.querySelector('#projects');
+    projectsList.innerHTML = "";
+    projectsList.innerHTML = `<option class="default" value="none">No project</option>`;
+
+    
+    projects.forEach((project) => {
+      projectsList.insertAdjacentHTML('beforeend', `<option value="${project.name}">${project.name}</option>`);
+    })
+    
+  }
 
   // show task form
   static showTaskForm() {
