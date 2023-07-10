@@ -37,11 +37,10 @@ nextWeekTasks.addEventListener('click', () => {
 })
 
 
-// project event listener
+// project list event listener
 const projectsContainer = document.querySelector('#projects')
 projectsContainer.addEventListener('click', (e) => {
   const target = e.target.id;
-  console.log(target)
   UI.loadTasks(target + ' tasks', Storage.getProjectTasks(target));
 })
 
@@ -81,11 +80,20 @@ const projectForm = linksContainer.querySelector('#addProject');
 projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
-  // const project = new Project(projectName.value);
-  Storage.saveProject(projectName.value);
+  
+  if(Storage.getProjectId(projectName.value) >= 0){
+    console.log('project already exists')
+  } else {
+    const project = new Project(projectName.value);
+    Storage.saveProject(project);
+  }
+
   UI.addProjectsToForm(Storage.getProjects())
+
   UI.showProjectForm();
+
   UI.loadProjects();
+
   UI.clearFields(projectForm);
 })
 

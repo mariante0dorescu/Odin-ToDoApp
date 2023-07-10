@@ -1191,14 +1191,29 @@ class Storage {
 
   // get project local save or epmty array
   static getProjects(){
-    let projects;
-    if(localStorage.getItem("odinProjects") === null) {
-      projects = []
-    } else {
-      projects = JSON.parse(localStorage.getItem("odinProjects"));
-    }
+    const projects = JSON.parse(localStorage.getItem("odinProjects")) || [];
+
+    // if(localStorage.getItem("odinProjects") === null) {
+    //   projects = [];
+    // } else {
+    //   projects = JSON.parse(localStorage.getItem("odinProjects"));
+    // }
+    console.log(projects)
     return projects;
   }
+
+
+    // add new project to local storage
+    static saveProject(projectName){
+      const localProjects = Storage.getProjects();    
+      console.log(localProjects)
+      const index = localProjects.findIndex((project) => project.name = projectName);
+      console.log(index)
+      // if(Storage.getProjectStorageId(project.name) < 0) {     
+      //   projects.push(project);
+      //   localStorage.setItem("odinProjects",JSON.stringify(projects))
+      // } 
+    }
 
   // get project task based on the name of the project
   static getProjectTasks(name) {
@@ -1213,43 +1228,33 @@ class Storage {
         return task.id === id;
       })
     })
-
+    
     return result;
 
   }
 
-  // add new project to local storage
-  static saveProject(project){
-    const projects = Storage.getProjects();    
-
-    Storage.getProjectStorageId(project.name);
-
-    // if(Storage.getProjectStorageId(project.name) < 0) {     
-    //   projects.push(project);
-    //   localStorage.setItem("odinProjects",JSON.stringify(projects))
-    // } 
-  }
-
   // add new task to project
   static saveTaskInProject(projectName, id){
-    // const projects = Storage.getProjects();
-    // const index = projects.findIndex((project) => project.name = projectName);
+    const projects = Storage.getProjects();
+    const index = projects.findIndex((project) => project.name = projectName);
           
-    projects[getProjectStorageId(projectName)].tasks.push(id);
+    projects[index].tasks.push(id);
     localStorage.setItem("odinProjects",JSON.stringify(projects))
   }
 
-  static deleteTaskFromProject(id){
+  // static deleteTaskFromProject(id){
 
-  }
+  // }
 
   // return the index of the project saved in storage, based on the name
-  static getProjectStorageId(projectName){
-    const projects = Storage.getProjects();
-    console.log(projects)
-    const index = projects.findIndex((project) => project.name = projectName);
-    return index;
-  }
+  // static getProjectStorageId(projectName){
+  //   const projects = Storage.getProjects();
+  //   // console.log(projects)
+  //   // console.log(projectName)
+  //   const index = Storage.getProjects().findIndex((project) => project.name = projectName);
+    
+  //   return index;
+  // }
 
 
   // add task to local storage
@@ -1744,8 +1749,8 @@ const projectForm = linksContainer.querySelector('#addProject');
 projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
-  const project = new _project__WEBPACK_IMPORTED_MODULE_3__["default"](projectName.value);
-  _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveProject(project);
+  // const project = new Project(projectName.value);
+  _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveProject(projectName.value);
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].addProjectsToForm(_storage__WEBPACK_IMPORTED_MODULE_4__["default"].getProjects())
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].showProjectForm();
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadProjects();
@@ -1778,4 +1783,4 @@ taskContainer.addEventListener('click', (e) => {
 
 /******/ })()
 ;
-//# sourceMappingURL=main.1a180dc1b8a0d029406d.js.map
+//# sourceMappingURL=main.06c8ae7e5b80bd9e93ab.js.map

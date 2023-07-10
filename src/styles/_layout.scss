@@ -190,6 +190,8 @@
         }
 
         .task_info{
+          word-wrap: break-word;
+          
           & > p,
           & > h2{
             margin-top: .5rem;

@@ -14,37 +14,34 @@ export default class Storage {
 
   // get project local save or epmty array
   static getProjects(){
-    const projects = JSON.parse(localStorage.getItem("odinProjects")) || [];
-
-    // if(localStorage.getItem("odinProjects") === null) {
-    //   projects = [];
-    // } else {
-    //   projects = JSON.parse(localStorage.getItem("odinProjects"));
-    // }
-    console.log(projects)
+    let projects;
+    if(localStorage.getItem("odinProjects") === null) {
+      projects = [];
+    } else {
+      projects = JSON.parse(localStorage.getItem("odinProjects"));
+    }
     return projects;
   }
 
-
     // add new project to local storage
-    static saveProject(projectName){
+    static saveProject(project){
       const localProjects = Storage.getProjects();    
-      console.log(localProjects)
-      const index = localProjects.findIndex((project) => project.name = projectName);
-      console.log(index)
-      // if(Storage.getProjectStorageId(project.name) < 0) {     
-      //   projects.push(project);
-      //   localStorage.setItem("odinProjects",JSON.stringify(projects))
-      // } 
+      localProjects.push(project);
+      localStorage.setItem("odinProjects",JSON.stringify(localProjects))
     }
+  
+  // check if project name already exists in the local storage
+  static getProjectId(name){
+    const localProjects = Storage.getProjects();
+    return localProjects.findIndex((project) =>  project.name === name);
+  }
 
   // get project task based on the name of the project
   static getProjectTasks(name) {
     let tasks = Storage.getTasks(); // returns all tasks
-    let projects = Storage.getProjects(); // returns all projects 
-    let index = projects.findIndex((project) =>  project.name === name); // return index of the project
-    
-    let tasksIDS = projects[index].tasks; // returns array with ids of tasks
+    let localProjects = Storage.getProjects(); // returns all projects 
+    let index = Storage.getProjectId(name)
+    let tasksIDS = localProjects[index].tasks; // returns array with ids of tasks
     
     let result = tasksIDS.map((id) => {
       return tasks.find((task) => {
@@ -53,16 +50,15 @@ export default class Storage {
     })
     
     return result;
-
   }
 
   // add new task to project
   static saveTaskInProject(projectName, id){
-    const projects = Storage.getProjects();
-    const index = projects.findIndex((project) => project.name = projectName);
+    const localProjects = Storage.getProjects();
+    const index = localProjects.findIndex((project) => project.name = projectName);
           
-    projects[index].tasks.push(id);
-    localStorage.setItem("odinProjects",JSON.stringify(projects))
+    localProjects[index].tasks.push(id);
+    localStorage.setItem("odinProjects",JSON.stringify(localProjects))
   }
 
   // static deleteTaskFromProject(id){
@@ -70,14 +66,13 @@ export default class Storage {
   // }
 
   // return the index of the project saved in storage, based on the name
-  // static getProjectStorageId(projectName){
-  //   const projects = Storage.getProjects();
-  //   // console.log(projects)
-  //   // console.log(projectName)
-  //   const index = Storage.getProjects().findIndex((project) => project.name = projectName);
-    
-  //   return index;
-  // }
+  static getProjectStorageId(projectName){
+    // const localProjects = Storage.getProjects();
+    // console.log(localProjects)
+    // console.log(projectName)
+    const index = Storage.getProjects().findIndex((project) => project.name = projectName);    
+    return index;
+  }
 
 
   // add task to local storage
@@ -121,14 +116,24 @@ export default class Storage {
 
   // delete task from local storage
   static deleteTask(el){
+    const id = Storage.getTaskID(el);  
+    
+    // delete from tasks local storage
     const tasks = Storage.getTasks(); 
-    //const id = el.closest('.task__box').id    
     tasks.forEach((task, index) => {
-      if(task.id === Storage.getTaskID(el)){
+      if(task.id === id){
         tasks.splice(index, 1);
       }
     })
+    
+    // delete id from project saved in local storage
+    const localProjects = Storage.getProjects();
 
+    localProjects.forEach((project) => {
+      project.tasks = project.tasks.filter((taskId) => taskId !== id);
+    })
+
+    localStorage.setItem("odinProjects",JSON.stringify(localProjects))
     localStorage.setItem('odinTasks',JSON.stringify(tasks));
   }
 
