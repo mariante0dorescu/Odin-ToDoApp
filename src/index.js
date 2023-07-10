@@ -81,11 +81,12 @@ const projectForm = linksContainer.querySelector('#addProject');
 projectForm.addEventListener('submit', (e) => {
   e.preventDefault();
   const projectName = projectForm.querySelector('#addProjectName');
-  const project = new Project(projectName.value);
-  Storage.saveProject(project);
+  // const project = new Project(projectName.value);
+  Storage.saveProject(projectName.value);
   UI.addProjectsToForm(Storage.getProjects())
   UI.showProjectForm();
   UI.loadProjects();
+  UI.clearFields(projectForm);
 })
 
 const cancelProjectForm = projectForm.querySelector('.reset');

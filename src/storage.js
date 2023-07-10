@@ -14,14 +14,29 @@ export default class Storage {
 
   // get project local save or epmty array
   static getProjects(){
-    let projects;
-    if(localStorage.getItem("odinProjects") === null) {
-      projects = []
-    } else {
-      projects = JSON.parse(localStorage.getItem("odinProjects"));
-    }
+    const projects = JSON.parse(localStorage.getItem("odinProjects")) || [];
+
+    // if(localStorage.getItem("odinProjects") === null) {
+    //   projects = [];
+    // } else {
+    //   projects = JSON.parse(localStorage.getItem("odinProjects"));
+    // }
+    console.log(projects)
     return projects;
   }
+
+
+    // add new project to local storage
+    static saveProject(projectName){
+      const localProjects = Storage.getProjects();    
+      console.log(localProjects)
+      const index = localProjects.findIndex((project) => project.name = projectName);
+      console.log(index)
+      // if(Storage.getProjectStorageId(project.name) < 0) {     
+      //   projects.push(project);
+      //   localStorage.setItem("odinProjects",JSON.stringify(projects))
+      // } 
+    }
 
   // get project task based on the name of the project
   static getProjectTasks(name) {
@@ -36,16 +51,9 @@ export default class Storage {
         return task.id === id;
       })
     })
-
+    
     return result;
 
-  }
-
-  // add new project to local storage
-  static saveProject(project){
-    const projects = Storage.getProjects();    
-    projects.push(project);
-    localStorage.setItem("odinProjects",JSON.stringify(projects))
   }
 
   // add new task to project
@@ -56,6 +64,20 @@ export default class Storage {
     projects[index].tasks.push(id);
     localStorage.setItem("odinProjects",JSON.stringify(projects))
   }
+
+  // static deleteTaskFromProject(id){
+
+  // }
+
+  // return the index of the project saved in storage, based on the name
+  // static getProjectStorageId(projectName){
+  //   const projects = Storage.getProjects();
+  //   // console.log(projects)
+  //   // console.log(projectName)
+  //   const index = Storage.getProjects().findIndex((project) => project.name = projectName);
+    
+  //   return index;
+  // }
 
 
   // add task to local storage
