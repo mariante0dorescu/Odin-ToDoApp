@@ -60,7 +60,6 @@ taskForm.addEventListener('submit', (e) => {
   const projectList = taskForm.querySelector('#projects');
   const project = projectList.options[projectList.selectedIndex].value 
   const task = new Task(taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
- 
 
   if(project !== "none"){
     Storage.saveTaskInProject(project, task.id)
