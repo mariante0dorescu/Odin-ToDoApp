@@ -827,6 +827,1090 @@ module.exports = function (item) {
 
 /***/ }),
 
+/***/ "./node_modules/date-fns/esm/_lib/defaultOptions/index.js":
+/*!****************************************************************!*\
+  !*** ./node_modules/date-fns/esm/_lib/defaultOptions/index.js ***!
+  \****************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   getDefaultOptions: () => (/* binding */ getDefaultOptions),
+/* harmony export */   setDefaultOptions: () => (/* binding */ setDefaultOptions)
+/* harmony export */ });
+var defaultOptions = {};
+function getDefaultOptions() {
+  return defaultOptions;
+}
+function setDefaultOptions(newOptions) {
+  defaultOptions = newOptions;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/date-fns/esm/_lib/requiredArgs/index.js ***!
+  \**************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ requiredArgs)
+/* harmony export */ });
+function requiredArgs(required, args) {
+  if (args.length < required) {
+    throw new TypeError(required + ' argument' + (required > 1 ? 's' : '') + ' required, but only ' + args.length + ' present');
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/_lib/toInteger/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/date-fns/esm/_lib/toInteger/index.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toInteger)
+/* harmony export */ });
+function toInteger(dirtyNumber) {
+  if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
+    return NaN;
+  }
+  var number = Number(dirtyNumber);
+  if (isNaN(number)) {
+    return number;
+  }
+  return number < 0 ? Math.ceil(number) : Math.floor(number);
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/addDays/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/date-fns/esm/addDays/index.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ addDays)
+/* harmony export */ });
+/* harmony import */ var _lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/toInteger/index.js */ "./node_modules/date-fns/esm/_lib/toInteger/index.js");
+/* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+
+/**
+ * @name addDays
+ * @category Day Helpers
+ * @summary Add the specified number of days to the given date.
+ *
+ * @description
+ * Add the specified number of days to the given date.
+ *
+ * @param {Date|Number} date - the date to be changed
+ * @param {Number} amount - the amount of days to be added. Positive decimals will be rounded using `Math.floor`, decimals less than zero will be rounded using `Math.ceil`.
+ * @returns {Date} - the new date with the days added
+ * @throws {TypeError} - 2 arguments required
+ *
+ * @example
+ * // Add 10 days to 1 September 2014:
+ * const result = addDays(new Date(2014, 8, 1), 10)
+ * //=> Thu Sep 11 2014 00:00:00
+ */
+function addDays(dirtyDate, dirtyAmount) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, arguments);
+  var date = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDate);
+  var amount = (0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__["default"])(dirtyAmount);
+  if (isNaN(amount)) {
+    return new Date(NaN);
+  }
+  if (!amount) {
+    // If 0 days, no-op to avoid changing times in the hour before end of DST
+    return date;
+  }
+  date.setDate(date.getDate() + amount);
+  return date;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/compareAsc/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/date-fns/esm/compareAsc/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ compareAsc)
+/* harmony export */ });
+/* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name compareAsc
+ * @category Common Helpers
+ * @summary Compare the two dates and return -1, 0 or 1.
+ *
+ * @description
+ * Compare the two dates and return 1 if the first date is after the second,
+ * -1 if the first date is before the second or 0 if dates are equal.
+ *
+ * @param {Date|Number} dateLeft - the first date to compare
+ * @param {Date|Number} dateRight - the second date to compare
+ * @returns {Number} the result of the comparison
+ * @throws {TypeError} 2 arguments required
+ *
+ * @example
+ * // Compare 11 February 1987 and 10 July 1989:
+ * const result = compareAsc(new Date(1987, 1, 11), new Date(1989, 6, 10))
+ * //=> -1
+ *
+ * @example
+ * // Sort the array of dates:
+ * const result = [
+ *   new Date(1995, 6, 2),
+ *   new Date(1987, 1, 11),
+ *   new Date(1989, 6, 10)
+ * ].sort(compareAsc)
+ * //=> [
+ * //   Wed Feb 11 1987 00:00:00,
+ * //   Mon Jul 10 1989 00:00:00,
+ * //   Sun Jul 02 1995 00:00:00
+ * // ]
+ */
+function compareAsc(dirtyDateLeft, dirtyDateRight) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, arguments);
+  var dateLeft = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateLeft);
+  var dateRight = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateRight);
+  var diff = dateLeft.getTime() - dateRight.getTime();
+  if (diff < 0) {
+    return -1;
+  } else if (diff > 0) {
+    return 1;
+    // Return 0 if diff is 0; return NaN if diff is NaN
+  } else {
+    return diff;
+  }
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/constants/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/date-fns/esm/constants/index.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   daysInWeek: () => (/* binding */ daysInWeek),
+/* harmony export */   daysInYear: () => (/* binding */ daysInYear),
+/* harmony export */   maxTime: () => (/* binding */ maxTime),
+/* harmony export */   millisecondsInHour: () => (/* binding */ millisecondsInHour),
+/* harmony export */   millisecondsInMinute: () => (/* binding */ millisecondsInMinute),
+/* harmony export */   millisecondsInSecond: () => (/* binding */ millisecondsInSecond),
+/* harmony export */   minTime: () => (/* binding */ minTime),
+/* harmony export */   minutesInHour: () => (/* binding */ minutesInHour),
+/* harmony export */   monthsInQuarter: () => (/* binding */ monthsInQuarter),
+/* harmony export */   monthsInYear: () => (/* binding */ monthsInYear),
+/* harmony export */   quartersInYear: () => (/* binding */ quartersInYear),
+/* harmony export */   secondsInDay: () => (/* binding */ secondsInDay),
+/* harmony export */   secondsInHour: () => (/* binding */ secondsInHour),
+/* harmony export */   secondsInMinute: () => (/* binding */ secondsInMinute),
+/* harmony export */   secondsInMonth: () => (/* binding */ secondsInMonth),
+/* harmony export */   secondsInQuarter: () => (/* binding */ secondsInQuarter),
+/* harmony export */   secondsInWeek: () => (/* binding */ secondsInWeek),
+/* harmony export */   secondsInYear: () => (/* binding */ secondsInYear)
+/* harmony export */ });
+/**
+ * Days in 1 week.
+ *
+ * @name daysInWeek
+ * @constant
+ * @type {number}
+ * @default
+ */
+var daysInWeek = 7;
+
+/**
+ * Days in 1 year
+ * One years equals 365.2425 days according to the formula:
+ *
+ * > Leap year occures every 4 years, except for years that are divisable by 100 and not divisable by 400.
+ * > 1 mean year = (365+1/4-1/100+1/400) days = 365.2425 days
+ *
+ * @name daysInYear
+ * @constant
+ * @type {number}
+ * @default
+ */
+var daysInYear = 365.2425;
+
+/**
+ * Maximum allowed time.
+ *
+ * @name maxTime
+ * @constant
+ * @type {number}
+ * @default
+ */
+var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1000;
+
+/**
+ * Milliseconds in 1 minute
+ *
+ * @name millisecondsInMinute
+ * @constant
+ * @type {number}
+ * @default
+ */
+var millisecondsInMinute = 60000;
+
+/**
+ * Milliseconds in 1 hour
+ *
+ * @name millisecondsInHour
+ * @constant
+ * @type {number}
+ * @default
+ */
+var millisecondsInHour = 3600000;
+
+/**
+ * Milliseconds in 1 second
+ *
+ * @name millisecondsInSecond
+ * @constant
+ * @type {number}
+ * @default
+ */
+var millisecondsInSecond = 1000;
+
+/**
+ * Minimum allowed time.
+ *
+ * @name minTime
+ * @constant
+ * @type {number}
+ * @default
+ */
+var minTime = -maxTime;
+
+/**
+ * Minutes in 1 hour
+ *
+ * @name minutesInHour
+ * @constant
+ * @type {number}
+ * @default
+ */
+var minutesInHour = 60;
+
+/**
+ * Months in 1 quarter
+ *
+ * @name monthsInQuarter
+ * @constant
+ * @type {number}
+ * @default
+ */
+var monthsInQuarter = 3;
+
+/**
+ * Months in 1 year
+ *
+ * @name monthsInYear
+ * @constant
+ * @type {number}
+ * @default
+ */
+var monthsInYear = 12;
+
+/**
+ * Quarters in 1 year
+ *
+ * @name quartersInYear
+ * @constant
+ * @type {number}
+ * @default
+ */
+var quartersInYear = 4;
+
+/**
+ * Seconds in 1 hour
+ *
+ * @name secondsInHour
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInHour = 3600;
+
+/**
+ * Seconds in 1 minute
+ *
+ * @name secondsInMinute
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInMinute = 60;
+
+/**
+ * Seconds in 1 day
+ *
+ * @name secondsInDay
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInDay = secondsInHour * 24;
+
+/**
+ * Seconds in 1 week
+ *
+ * @name secondsInWeek
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInWeek = secondsInDay * 7;
+
+/**
+ * Seconds in 1 year
+ *
+ * @name secondsInYear
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInYear = secondsInDay * daysInYear;
+
+/**
+ * Seconds in 1 month
+ *
+ * @name secondsInMonth
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInMonth = secondsInYear / 12;
+
+/**
+ * Seconds in 1 quarter
+ *
+ * @name secondsInQuarter
+ * @constant
+ * @type {number}
+ * @default
+ */
+var secondsInQuarter = secondsInMonth * 3;
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/isAfter/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/date-fns/esm/isAfter/index.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isAfter)
+/* harmony export */ });
+/* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name isAfter
+ * @category Common Helpers
+ * @summary Is the first date after the second one?
+ *
+ * @description
+ * Is the first date after the second one?
+ *
+ * @param {Date|Number} date - the date that should be after the other one to return true
+ * @param {Date|Number} dateToCompare - the date to compare with
+ * @returns {Boolean} the first date is after the second date
+ * @throws {TypeError} 2 arguments required
+ *
+ * @example
+ * // Is 10 July 1989 after 11 February 1987?
+ * const result = isAfter(new Date(1989, 6, 10), new Date(1987, 1, 11))
+ * //=> true
+ */
+function isAfter(dirtyDate, dirtyDateToCompare) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, arguments);
+  var date = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDate);
+  var dateToCompare = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateToCompare);
+  return date.getTime() > dateToCompare.getTime();
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/isSameDay/index.js":
+/*!******************************************************!*\
+  !*** ./node_modules/date-fns/esm/isSameDay/index.js ***!
+  \******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isSameDay)
+/* harmony export */ });
+/* harmony import */ var _startOfDay_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../startOfDay/index.js */ "./node_modules/date-fns/esm/startOfDay/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name isSameDay
+ * @category Day Helpers
+ * @summary Are the given dates in the same day (and year and month)?
+ *
+ * @description
+ * Are the given dates in the same day (and year and month)?
+ *
+ * @param {Date|Number} dateLeft - the first date to check
+ * @param {Date|Number} dateRight - the second date to check
+ * @returns {Boolean} the dates are in the same day (and year and month)
+ * @throws {TypeError} 2 arguments required
+ *
+ * @example
+ * // Are 4 September 06:00:00 and 4 September 18:00:00 in the same day?
+ * const result = isSameDay(new Date(2014, 8, 4, 6, 0), new Date(2014, 8, 4, 18, 0))
+ * //=> true
+ *
+ * @example
+ * // Are 4 September and 4 October in the same day?
+ * const result = isSameDay(new Date(2014, 8, 4), new Date(2014, 9, 4))
+ * //=> false
+ *
+ * @example
+ * // Are 4 September, 2014 and 4 September, 2015 in the same day?
+ * const result = isSameDay(new Date(2014, 8, 4), new Date(2015, 8, 4))
+ * //=> false
+ */
+function isSameDay(dirtyDateLeft, dirtyDateRight) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, arguments);
+  var dateLeftStartOfDay = (0,_startOfDay_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateLeft);
+  var dateRightStartOfDay = (0,_startOfDay_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateRight);
+  return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime();
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/isSameWeek/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/date-fns/esm/isSameWeek/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isSameWeek)
+/* harmony export */ });
+/* harmony import */ var _startOfWeek_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../startOfWeek/index.js */ "./node_modules/date-fns/esm/startOfWeek/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name isSameWeek
+ * @category Week Helpers
+ * @summary Are the given dates in the same week (and month and year)?
+ *
+ * @description
+ * Are the given dates in the same week (and month and year)?
+ *
+ * @param {Date|Number} dateLeft - the first date to check
+ * @param {Date|Number} dateRight - the second date to check
+ * @param {Object} [options] - an object with options.
+ * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
+ * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Boolean} the dates are in the same week (and month and year)
+ * @throws {TypeError} 2 arguments required
+ * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ *
+ * @example
+ * // Are 31 August 2014 and 4 September 2014 in the same week?
+ * const result = isSameWeek(new Date(2014, 7, 31), new Date(2014, 8, 4))
+ * //=> true
+ *
+ * @example
+ * // If week starts with Monday,
+ * // are 31 August 2014 and 4 September 2014 in the same week?
+ * const result = isSameWeek(new Date(2014, 7, 31), new Date(2014, 8, 4), {
+ *   weekStartsOn: 1
+ * })
+ * //=> false
+ *
+ * @example
+ * // Are 1 January 2014 and 1 January 2015 in the same week?
+ * const result = isSameWeek(new Date(2014, 0, 1), new Date(2015, 0, 1))
+ * //=> false
+ */
+function isSameWeek(dirtyDateLeft, dirtyDateRight, options) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(2, arguments);
+  var dateLeftStartOfWeek = (0,_startOfWeek_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateLeft, options);
+  var dateRightStartOfWeek = (0,_startOfWeek_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDateRight, options);
+  return dateLeftStartOfWeek.getTime() === dateRightStartOfWeek.getTime();
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/isToday/index.js":
+/*!****************************************************!*\
+  !*** ./node_modules/date-fns/esm/isToday/index.js ***!
+  \****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isToday)
+/* harmony export */ });
+/* harmony import */ var _isSameDay_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../isSameDay/index.js */ "./node_modules/date-fns/esm/isSameDay/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name isToday
+ * @category Day Helpers
+ * @summary Is the given date today?
+ * @pure false
+ *
+ * @description
+ * Is the given date today?
+ *
+ * > ⚠️ Please note that this function is not present in the FP submodule as
+ * > it uses `Date.now()` internally hence impure and can't be safely curried.
+ *
+ * @param {Date|Number} date - the date to check
+ * @returns {Boolean} the date is today
+ * @throws {TypeError} 1 argument required
+ *
+ * @example
+ * // If today is 6 October 2014, is 6 October 14:00:00 today?
+ * const result = isToday(new Date(2014, 9, 6, 14, 0))
+ * //=> true
+ */
+function isToday(dirtyDate) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(1, arguments);
+  return (0,_isSameDay_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDate, Date.now());
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/isTomorrow/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/date-fns/esm/isTomorrow/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ isTomorrow)
+/* harmony export */ });
+/* harmony import */ var _addDays_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../addDays/index.js */ "./node_modules/date-fns/esm/addDays/index.js");
+/* harmony import */ var _isSameDay_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../isSameDay/index.js */ "./node_modules/date-fns/esm/isSameDay/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+
+/**
+ * @name isTomorrow
+ * @category Day Helpers
+ * @summary Is the given date tomorrow?
+ * @pure false
+ *
+ * @description
+ * Is the given date tomorrow?
+ *
+ * > ⚠️ Please note that this function is not present in the FP submodule as
+ * > it uses `Date.now()` internally hence impure and can't be safely curried.
+ *
+ * @param {Date|Number} date - the date to check
+ * @returns {Boolean} the date is tomorrow
+ * @throws {TypeError} 1 argument required
+ *
+ * @example
+ * // If today is 6 October 2014, is 7 October 14:00:00 tomorrow?
+ * const result = isTomorrow(new Date(2014, 9, 7, 14, 0))
+ * //=> true
+ */
+function isTomorrow(dirtyDate) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(1, arguments);
+  return (0,_isSameDay_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDate, (0,_addDays_index_js__WEBPACK_IMPORTED_MODULE_2__["default"])(Date.now(), 1));
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/parseISO/index.js":
+/*!*****************************************************!*\
+  !*** ./node_modules/date-fns/esm/parseISO/index.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ parseISO)
+/* harmony export */ });
+/* harmony import */ var _constants_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/index.js */ "./node_modules/date-fns/esm/constants/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_lib/toInteger/index.js */ "./node_modules/date-fns/esm/_lib/toInteger/index.js");
+
+
+
+/**
+ * @name parseISO
+ * @category Common Helpers
+ * @summary Parse ISO string
+ *
+ * @description
+ * Parse the given string in ISO 8601 format and return an instance of Date.
+ *
+ * Function accepts complete ISO 8601 formats as well as partial implementations.
+ * ISO 8601: http://en.wikipedia.org/wiki/ISO_8601
+ *
+ * If the argument isn't a string, the function cannot parse the string or
+ * the values are invalid, it returns Invalid Date.
+ *
+ * @param {String} argument - the value to convert
+ * @param {Object} [options] - an object with options.
+ * @param {0|1|2} [options.additionalDigits=2] - the additional number of digits in the extended year format
+ * @returns {Date} the parsed date in the local time zone
+ * @throws {TypeError} 1 argument required
+ * @throws {RangeError} `options.additionalDigits` must be 0, 1 or 2
+ *
+ * @example
+ * // Convert string '2014-02-11T11:30:30' to date:
+ * const result = parseISO('2014-02-11T11:30:30')
+ * //=> Tue Feb 11 2014 11:30:30
+ *
+ * @example
+ * // Convert string '+02014101' to date,
+ * // if the additional number of digits in the extended year format is 1:
+ * const result = parseISO('+02014101', { additionalDigits: 1 })
+ * //=> Fri Apr 11 2014 00:00:00
+ */
+function parseISO(argument, options) {
+  var _options$additionalDi;
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(1, arguments);
+  var additionalDigits = (0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])((_options$additionalDi = options === null || options === void 0 ? void 0 : options.additionalDigits) !== null && _options$additionalDi !== void 0 ? _options$additionalDi : 2);
+  if (additionalDigits !== 2 && additionalDigits !== 1 && additionalDigits !== 0) {
+    throw new RangeError('additionalDigits must be 0, 1 or 2');
+  }
+  if (!(typeof argument === 'string' || Object.prototype.toString.call(argument) === '[object String]')) {
+    return new Date(NaN);
+  }
+  var dateStrings = splitDateString(argument);
+  var date;
+  if (dateStrings.date) {
+    var parseYearResult = parseYear(dateStrings.date, additionalDigits);
+    date = parseDate(parseYearResult.restDateString, parseYearResult.year);
+  }
+  if (!date || isNaN(date.getTime())) {
+    return new Date(NaN);
+  }
+  var timestamp = date.getTime();
+  var time = 0;
+  var offset;
+  if (dateStrings.time) {
+    time = parseTime(dateStrings.time);
+    if (isNaN(time)) {
+      return new Date(NaN);
+    }
+  }
+  if (dateStrings.timezone) {
+    offset = parseTimezone(dateStrings.timezone);
+    if (isNaN(offset)) {
+      return new Date(NaN);
+    }
+  } else {
+    var dirtyDate = new Date(timestamp + time);
+    // js parsed string assuming it's in UTC timezone
+    // but we need it to be parsed in our timezone
+    // so we use utc values to build date in our timezone.
+    // Year values from 0 to 99 map to the years 1900 to 1999
+    // so set year explicitly with setFullYear.
+    var result = new Date(0);
+    result.setFullYear(dirtyDate.getUTCFullYear(), dirtyDate.getUTCMonth(), dirtyDate.getUTCDate());
+    result.setHours(dirtyDate.getUTCHours(), dirtyDate.getUTCMinutes(), dirtyDate.getUTCSeconds(), dirtyDate.getUTCMilliseconds());
+    return result;
+  }
+  return new Date(timestamp + time + offset);
+}
+var patterns = {
+  dateTimeDelimiter: /[T ]/,
+  timeZoneDelimiter: /[Z ]/i,
+  timezone: /([Z+-].*)$/
+};
+var dateRegex = /^-?(?:(\d{3})|(\d{2})(?:-?(\d{2}))?|W(\d{2})(?:-?(\d{1}))?|)$/;
+var timeRegex = /^(\d{2}(?:[.,]\d*)?)(?::?(\d{2}(?:[.,]\d*)?))?(?::?(\d{2}(?:[.,]\d*)?))?$/;
+var timezoneRegex = /^([+-])(\d{2})(?::?(\d{2}))?$/;
+function splitDateString(dateString) {
+  var dateStrings = {};
+  var array = dateString.split(patterns.dateTimeDelimiter);
+  var timeString;
+
+  // The regex match should only return at maximum two array elements.
+  // [date], [time], or [date, time].
+  if (array.length > 2) {
+    return dateStrings;
+  }
+  if (/:/.test(array[0])) {
+    timeString = array[0];
+  } else {
+    dateStrings.date = array[0];
+    timeString = array[1];
+    if (patterns.timeZoneDelimiter.test(dateStrings.date)) {
+      dateStrings.date = dateString.split(patterns.timeZoneDelimiter)[0];
+      timeString = dateString.substr(dateStrings.date.length, dateString.length);
+    }
+  }
+  if (timeString) {
+    var token = patterns.timezone.exec(timeString);
+    if (token) {
+      dateStrings.time = timeString.replace(token[1], '');
+      dateStrings.timezone = token[1];
+    } else {
+      dateStrings.time = timeString;
+    }
+  }
+  return dateStrings;
+}
+function parseYear(dateString, additionalDigits) {
+  var regex = new RegExp('^(?:(\\d{4}|[+-]\\d{' + (4 + additionalDigits) + '})|(\\d{2}|[+-]\\d{' + (2 + additionalDigits) + '})$)');
+  var captures = dateString.match(regex);
+  // Invalid ISO-formatted year
+  if (!captures) return {
+    year: NaN,
+    restDateString: ''
+  };
+  var year = captures[1] ? parseInt(captures[1]) : null;
+  var century = captures[2] ? parseInt(captures[2]) : null;
+
+  // either year or century is null, not both
+  return {
+    year: century === null ? year : century * 100,
+    restDateString: dateString.slice((captures[1] || captures[2]).length)
+  };
+}
+function parseDate(dateString, year) {
+  // Invalid ISO-formatted year
+  if (year === null) return new Date(NaN);
+  var captures = dateString.match(dateRegex);
+  // Invalid ISO-formatted string
+  if (!captures) return new Date(NaN);
+  var isWeekDate = !!captures[4];
+  var dayOfYear = parseDateUnit(captures[1]);
+  var month = parseDateUnit(captures[2]) - 1;
+  var day = parseDateUnit(captures[3]);
+  var week = parseDateUnit(captures[4]);
+  var dayOfWeek = parseDateUnit(captures[5]) - 1;
+  if (isWeekDate) {
+    if (!validateWeekDate(year, week, dayOfWeek)) {
+      return new Date(NaN);
+    }
+    return dayOfISOWeekYear(year, week, dayOfWeek);
+  } else {
+    var date = new Date(0);
+    if (!validateDate(year, month, day) || !validateDayOfYearDate(year, dayOfYear)) {
+      return new Date(NaN);
+    }
+    date.setUTCFullYear(year, month, Math.max(dayOfYear, day));
+    return date;
+  }
+}
+function parseDateUnit(value) {
+  return value ? parseInt(value) : 1;
+}
+function parseTime(timeString) {
+  var captures = timeString.match(timeRegex);
+  if (!captures) return NaN; // Invalid ISO-formatted time
+
+  var hours = parseTimeUnit(captures[1]);
+  var minutes = parseTimeUnit(captures[2]);
+  var seconds = parseTimeUnit(captures[3]);
+  if (!validateTime(hours, minutes, seconds)) {
+    return NaN;
+  }
+  return hours * _constants_index_js__WEBPACK_IMPORTED_MODULE_2__.millisecondsInHour + minutes * _constants_index_js__WEBPACK_IMPORTED_MODULE_2__.millisecondsInMinute + seconds * 1000;
+}
+function parseTimeUnit(value) {
+  return value && parseFloat(value.replace(',', '.')) || 0;
+}
+function parseTimezone(timezoneString) {
+  if (timezoneString === 'Z') return 0;
+  var captures = timezoneString.match(timezoneRegex);
+  if (!captures) return 0;
+  var sign = captures[1] === '+' ? -1 : 1;
+  var hours = parseInt(captures[2]);
+  var minutes = captures[3] && parseInt(captures[3]) || 0;
+  if (!validateTimezone(hours, minutes)) {
+    return NaN;
+  }
+  return sign * (hours * _constants_index_js__WEBPACK_IMPORTED_MODULE_2__.millisecondsInHour + minutes * _constants_index_js__WEBPACK_IMPORTED_MODULE_2__.millisecondsInMinute);
+}
+function dayOfISOWeekYear(isoWeekYear, week, day) {
+  var date = new Date(0);
+  date.setUTCFullYear(isoWeekYear, 0, 4);
+  var fourthOfJanuaryDay = date.getUTCDay() || 7;
+  var diff = (week - 1) * 7 + day + 1 - fourthOfJanuaryDay;
+  date.setUTCDate(date.getUTCDate() + diff);
+  return date;
+}
+
+// Validation functions
+
+// February is null to handle the leap year (using ||)
+var daysInMonths = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+function isLeapYearIndex(year) {
+  return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
+}
+function validateDate(year, month, date) {
+  return month >= 0 && month <= 11 && date >= 1 && date <= (daysInMonths[month] || (isLeapYearIndex(year) ? 29 : 28));
+}
+function validateDayOfYearDate(year, dayOfYear) {
+  return dayOfYear >= 1 && dayOfYear <= (isLeapYearIndex(year) ? 366 : 365);
+}
+function validateWeekDate(_year, week, day) {
+  return week >= 1 && week <= 53 && day >= 0 && day <= 6;
+}
+function validateTime(hours, minutes, seconds) {
+  if (hours === 24) {
+    return minutes === 0 && seconds === 0;
+  }
+  return seconds >= 0 && seconds < 60 && minutes >= 0 && minutes < 60 && hours >= 0 && hours < 25;
+}
+function validateTimezone(_hours, minutes) {
+  return minutes >= 0 && minutes <= 59;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/startOfDay/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/date-fns/esm/startOfDay/index.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ startOfDay)
+/* harmony export */ });
+/* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name startOfDay
+ * @category Day Helpers
+ * @summary Return the start of a day for the given date.
+ *
+ * @description
+ * Return the start of a day for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|Number} date - the original date
+ * @returns {Date} the start of a day
+ * @throws {TypeError} 1 argument required
+ *
+ * @example
+ * // The start of a day for 2 September 2014 11:55:00:
+ * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Tue Sep 02 2014 00:00:00
+ */
+function startOfDay(dirtyDate) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(1, arguments);
+  var date = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(dirtyDate);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/startOfTomorrow/index.js":
+/*!************************************************************!*\
+  !*** ./node_modules/date-fns/esm/startOfTomorrow/index.js ***!
+  \************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ startOfTomorrow)
+/* harmony export */ });
+/**
+ * @name startOfTomorrow
+ * @category Day Helpers
+ * @summary Return the start of tomorrow.
+ * @pure false
+ *
+ * @description
+ * Return the start of tomorrow.
+ *
+ * > ⚠️ Please note that this function is not present in the FP submodule as
+ * > it uses `new Date()` internally hence impure and can't be safely curried.
+ *
+ * @returns {Date} the start of tomorrow
+ *
+ * @example
+ * // If today is 6 October 2014:
+ * const result = startOfTomorrow()
+ * //=> Tue Oct 7 2014 00:00:00
+ */
+function startOfTomorrow() {
+  var now = new Date();
+  var year = now.getFullYear();
+  var month = now.getMonth();
+  var day = now.getDate();
+  var date = new Date(0);
+  date.setFullYear(year, month, day + 1);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/startOfWeek/index.js":
+/*!********************************************************!*\
+  !*** ./node_modules/date-fns/esm/startOfWeek/index.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ startOfWeek)
+/* harmony export */ });
+/* harmony import */ var _toDate_index_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../toDate/index.js */ "./node_modules/date-fns/esm/toDate/index.js");
+/* harmony import */ var _lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../_lib/toInteger/index.js */ "./node_modules/date-fns/esm/_lib/toInteger/index.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+/* harmony import */ var _lib_defaultOptions_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_lib/defaultOptions/index.js */ "./node_modules/date-fns/esm/_lib/defaultOptions/index.js");
+
+
+
+
+/**
+ * @name startOfWeek
+ * @category Week Helpers
+ * @summary Return the start of a week for the given date.
+ *
+ * @description
+ * Return the start of a week for the given date.
+ * The result will be in the local timezone.
+ *
+ * @param {Date|Number} date - the original date
+ * @param {Object} [options] - an object with options.
+ * @param {Locale} [options.locale=defaultLocale] - the locale object. See [Locale]{@link https://date-fns.org/docs/Locale}
+ * @param {0|1|2|3|4|5|6} [options.weekStartsOn=0] - the index of the first day of the week (0 - Sunday)
+ * @returns {Date} the start of a week
+ * @throws {TypeError} 1 argument required
+ * @throws {RangeError} `options.weekStartsOn` must be between 0 and 6
+ *
+ * @example
+ * // The start of a week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0))
+ * //=> Sun Aug 31 2014 00:00:00
+ *
+ * @example
+ * // If the week starts on Monday, the start of the week for 2 September 2014 11:55:00:
+ * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
+ * //=> Mon Sep 01 2014 00:00:00
+ */
+function startOfWeek(dirtyDate, options) {
+  var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_0__["default"])(1, arguments);
+  var defaultOptions = (0,_lib_defaultOptions_index_js__WEBPACK_IMPORTED_MODULE_1__.getDefaultOptions)();
+  var weekStartsOn = (0,_lib_toInteger_index_js__WEBPACK_IMPORTED_MODULE_2__["default"])((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
+
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
+    throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
+  }
+  var date = (0,_toDate_index_js__WEBPACK_IMPORTED_MODULE_3__["default"])(dirtyDate);
+  var day = date.getDay();
+  var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
+  date.setDate(date.getDate() - diff);
+  date.setHours(0, 0, 0, 0);
+  return date;
+}
+
+/***/ }),
+
+/***/ "./node_modules/date-fns/esm/toDate/index.js":
+/*!***************************************************!*\
+  !*** ./node_modules/date-fns/esm/toDate/index.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ toDate)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/typeof */ "./node_modules/@babel/runtime/helpers/esm/typeof.js");
+/* harmony import */ var _lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../_lib/requiredArgs/index.js */ "./node_modules/date-fns/esm/_lib/requiredArgs/index.js");
+
+
+/**
+ * @name toDate
+ * @category Common Helpers
+ * @summary Convert the given argument to an instance of Date.
+ *
+ * @description
+ * Convert the given argument to an instance of Date.
+ *
+ * If the argument is an instance of Date, the function returns its clone.
+ *
+ * If the argument is a number, it is treated as a timestamp.
+ *
+ * If the argument is none of the above, the function returns Invalid Date.
+ *
+ * **Note**: *all* Date arguments passed to any *date-fns* function is processed by `toDate`.
+ *
+ * @param {Date|Number} argument - the value to convert
+ * @returns {Date} the parsed date in the local time zone
+ * @throws {TypeError} 1 argument required
+ *
+ * @example
+ * // Clone the date:
+ * const result = toDate(new Date(2014, 1, 11, 11, 30, 30))
+ * //=> Tue Feb 11 2014 11:30:30
+ *
+ * @example
+ * // Convert the timestamp to date:
+ * const result = toDate(1392098430000)
+ * //=> Tue Feb 11 2014 11:30:30
+ */
+function toDate(argument) {
+  (0,_lib_requiredArgs_index_js__WEBPACK_IMPORTED_MODULE_1__["default"])(1, arguments);
+  var argStr = Object.prototype.toString.call(argument);
+
+  // Clone the date
+  if (argument instanceof Date || (0,_babel_runtime_helpers_esm_typeof__WEBPACK_IMPORTED_MODULE_0__["default"])(argument) === 'object' && argStr === '[object Date]') {
+    // Prevent the date to lose the milliseconds when passed to new Date() in IE10
+    return new Date(argument.getTime());
+  } else if (typeof argument === 'number' || argStr === '[object Number]') {
+    return new Date(argument);
+  } else {
+    if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
+      // eslint-disable-next-line no-console
+      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments");
+      // eslint-disable-next-line no-console
+      console.warn(new Error().stack);
+    }
+    return new Date(NaN);
+  }
+}
+
+/***/ }),
+
 /***/ "./src/styles/main.scss":
 /*!******************************!*\
   !*** ./src/styles/main.scss ***!
@@ -1179,9 +2263,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ Storage)
 /* harmony export */ });
 /* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task */ "./src/task.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/compareAsc/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/parseISO/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/isToday/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/isTomorrow/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/isSameWeek/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/startOfTomorrow/index.js");
+/* harmony import */ var date_fns__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! date-fns */ "./node_modules/date-fns/esm/isAfter/index.js");
+
 
 
 class Storage {
+
+
   // get tasks local save or epmty array
   static getTasks(){
     let tasks;
@@ -1190,13 +2284,23 @@ class Storage {
     } else {
       tasks = JSON.parse(localStorage.getItem('odinTasks'));
     }
+        
+    return Storage.sortDatesAscedent(tasks);
+  }
 
-  let cl = [];
-   tasks.forEach((task) => {
-    cl.push(new _task__WEBPACK_IMPORTED_MODULE_0__["default"](task.name, task.priority, task.description, task.dueDate, task.status, task.project))
-   })
-    
-    return cl;
+  static sortDatesAscedent(tasks) {
+    tasks.sort((a, b) => (0,date_fns__WEBPACK_IMPORTED_MODULE_1__["default"])((0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(a.dueDate), (0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(b.dueDate)));    
+    return tasks;    
+  }
+
+  //convert local storage into tasks class instance
+  static convertTasks(tasks){
+    let taskCls = [];
+    tasks.forEach((task) => {
+    taskCls.push(new _task__WEBPACK_IMPORTED_MODULE_0__["default"](task.name, task.priority, task.description, task.dueDate, task.status, task.project))
+    })
+
+    return taskCls;
   }
 
   // get project local save or epmty array
@@ -1210,12 +2314,12 @@ class Storage {
     return projects;
   }
 
-    // add new project to local storage
-    static saveProject(project){
-      const localProjects = Storage.getProjects();    
-      localProjects.push(project);
-      localStorage.setItem("odinProjects",JSON.stringify(localProjects))
-    }
+  // add new project to local storage
+  static saveProject(project){
+    const localProjects = Storage.getProjects();    
+    localProjects.push(project);
+    localStorage.setItem("odinProjects",JSON.stringify(localProjects))
+  }
   
   // check if project name already exists in the local storage
   static getProjectId(name){
@@ -1234,8 +2338,7 @@ class Storage {
       return tasks.find((task) => {
         return task.id === id;
       })
-    })
-    
+    })    
     return result;
   }
 
@@ -1269,15 +2372,27 @@ class Storage {
   // get tasks with today's date
   static getTodayTasks(){
     let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
+    const todayTasks = tasks.filter(task => (0,date_fns__WEBPACK_IMPORTED_MODULE_3__["default"])((0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(task.dueDate)));    
+    return todayTasks;
+  }
+
+  // get tasks with today's date
+  static getTommorowTasks(){
+    let tasks = Storage.getTasks();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    console.log(tomorrow)
+    const tomorrowTasks = tasks.filter((task) => (0,date_fns__WEBPACK_IMPORTED_MODULE_4__["default"])((0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(task.dueDate)) && (0,date_fns__WEBPACK_IMPORTED_MODULE_5__["default"])((0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(task.dueDate), tomorrow));    
+    return tomorrowTasks;
   }
 
   //get tasks with next week's date
   static getNextWeekTasks(){
     let tasks = Storage.getTasks();
-    //console.log(tasks)
-    return tasks;
+    const tommorrow = (0,date_fns__WEBPACK_IMPORTED_MODULE_6__["default"])();
+    const tommorrowTasks = tasks.filter((tasks) => (0,date_fns__WEBPACK_IMPORTED_MODULE_7__["default"])((0,date_fns__WEBPACK_IMPORTED_MODULE_2__["default"])(tasks.dueDate), tommorrow ))
+
+    return tommorrowTasks;
   }
 
 
@@ -1300,15 +2415,19 @@ class Storage {
 
   // delete task from local storage
   static deleteTask(el){
-    const id = Storage.getTaskID(el);  
-    
+    const id = Storage.getTaskID(el); 
+    console.log(id) 
     // delete from tasks local storage
-    const tasks = Storage.getTasks(); 
-    tasks.forEach((task, index) => {
-      if(task.id === id){
-        tasks.splice(index, 1);
-      }
-    })
+    const tasks = Storage.getTasks();
+    
+    const filteredTasks = tasks.filter(task => task.id !== id);
+    
+    // tasks.forEach((task, index) => {
+     
+    //   if(task.id === id){
+    //     tasks.splice(index, 1);
+    //   }
+    // })
     
     // delete id from project saved in local storage
     const localProjects = Storage.getProjects();
@@ -1318,7 +2437,7 @@ class Storage {
     })
 
     localStorage.setItem("odinProjects",JSON.stringify(localProjects))
-    localStorage.setItem('odinTasks',JSON.stringify(tasks));
+    localStorage.setItem('odinTasks',JSON.stringify(filteredTasks));
   }
 
   // helper - find index of task based on id
@@ -1374,12 +2493,12 @@ class Task {
     return this.dueDate
   }
 
-  // getDateFormatted() {
-  //   const day = this.dueDate.split('/')[2]
-  //   const month = this.dueDate.split('/')[1]
-  //   const year = this.dueDate.split('/')[0]
-  //   return `${month}/${day}/${year}`
-  // }
+  getDateFormatted() {
+    const day = this.dueDate.split('/')[2]
+    const month = this.dueDate.split('/')[1]
+    const year = this.dueDate.split('/')[0]
+    return `${month}/${day}/${year}`
+  }
 }
 
 
@@ -1603,6 +2722,28 @@ class UI {
 
 }
 
+/***/ }),
+
+/***/ "./node_modules/@babel/runtime/helpers/esm/typeof.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@babel/runtime/helpers/esm/typeof.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ _typeof)
+/* harmony export */ });
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+
 /***/ })
 
 /******/ 	});
@@ -1707,25 +2848,28 @@ document.addEventListener('DOMContentLoaded', _ui_js__WEBPACK_IMPORTED_MODULE_1_
 // tasks event listeners
 const linksContainer = document.querySelector('.links__container');
 const allTasks = linksContainer.querySelector('#all');
+const tommorrowTasks = linksContainer.querySelector('#tommorow');
 const todayTasks = linksContainer.querySelector('#today');
 const nextWeekTasks = linksContainer.querySelector('#next_week');
 
 
 allTasks.addEventListener('click', () => {
-
-  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("All tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTasks())
 })
 
 
 todayTasks.addEventListener('click', () => {
-
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("Today's tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTodayTasks())
 })
 
+
+tommorrowTasks.addEventListener('click', () => {
+  _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("Tommorow tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getTommorowTasks())
+})
+
+
 nextWeekTasks.addEventListener('click', () => {
-
   _ui_js__WEBPACK_IMPORTED_MODULE_1__["default"].loadTasks("Next week tasks", _storage__WEBPACK_IMPORTED_MODULE_4__["default"].getNextWeekTasks())
-
 })
 
 
@@ -1752,7 +2896,6 @@ taskForm.addEventListener('submit', (e) => {
   const projectList = taskForm.querySelector('#projects');
   const project = projectList.options[projectList.selectedIndex].value 
   const task = new _task__WEBPACK_IMPORTED_MODULE_2__["default"](taskName.value, taskPriority.value, taskDescription.value, taskDueDate.value);
- 
 
   if(project !== "none"){
     _storage__WEBPACK_IMPORTED_MODULE_4__["default"].saveTaskInProject(project, task.id)
@@ -1815,4 +2958,4 @@ taskContainer.addEventListener('click', (e) => {
 
 /******/ })()
 ;
-//# sourceMappingURL=main.83df993864d070d81457.js.map
+//# sourceMappingURL=main.887306b54fb962d41d6d.js.map

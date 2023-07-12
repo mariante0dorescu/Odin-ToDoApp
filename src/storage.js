@@ -1,6 +1,9 @@
 import Task from './task'
+import { parseISO, compareAsc, isToday, isAfter, startOfTomorrow, isSameWeek, isTomorrow } from 'date-fns';
 
 export default class Storage {
+
+
   // get tasks local save or epmty array
   static getTasks(){
     let tasks;
@@ -9,7 +12,13 @@ export default class Storage {
     } else {
       tasks = JSON.parse(localStorage.getItem('odinTasks'));
     }
-    return tasks
+        
+    return Storage.sortDatesAscedent(tasks);
+  }
+
+  static sortDatesAscedent(tasks) {
+    tasks.sort((a, b) => compareAsc(parseISO(a.dueDate), parseISO(b.dueDate)));    
+    return tasks;    
   }
 
   //convert local storage into tasks class instance
@@ -57,8 +66,7 @@ export default class Storage {
       return tasks.find((task) => {
         return task.id === id;
       })
-    })
-    
+    })    
     return result;
   }
 
@@ -91,16 +99,28 @@ export default class Storage {
 
   // get tasks with today's date
   static getTodayTasks(){
-    let tasks = Storage.convertTasks(Storage.getTasks());
-    console.log(tasks)
-    return tasks;
+    let tasks = Storage.getTasks();
+    const todayTasks = tasks.filter(task => isToday(parseISO(task.dueDate)));    
+    return todayTasks;
+  }
+
+  // get tasks with today's date
+  static getTommorowTasks(){
+    let tasks = Storage.getTasks();
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    console.log(tomorrow)
+    const tomorrowTasks = tasks.filter((task) => isTomorrow(parseISO(task.dueDate)) && isSameWeek(parseISO(task.dueDate), tomorrow));    
+    return tomorrowTasks;
   }
 
   //get tasks with next week's date
   static getNextWeekTasks(){
     let tasks = Storage.getTasks();
-    console.log(tasks)
-    return tasks;
+    const tommorrow = startOfTomorrow();
+    const tommorrowTasks = tasks.filter((tasks) => isAfter(parseISO(tasks.dueDate), tommorrow ))
+
+    return tommorrowTasks;
   }
 
 
@@ -129,7 +149,6 @@ export default class Storage {
     const tasks = Storage.getTasks();
     
     const filteredTasks = tasks.filter(task => task.id !== id);
-    console.log(filteredTasks)
     
     // tasks.forEach((task, index) => {
      
@@ -138,15 +157,15 @@ export default class Storage {
     //   }
     // })
     
-
     // delete id from project saved in local storage
     const localProjects = Storage.getProjects();
+
     localProjects.forEach((project) => {
       project.tasks = project.tasks.filter((taskId) => taskId !== id);
     })
 
-    // localStorage.setItem("odinProjects",JSON.stringify(localProjects))
-    // localStorage.setItem('odinTasks',JSON.stringify(tasks));
+    localStorage.setItem("odinProjects",JSON.stringify(localProjects))
+    localStorage.setItem('odinTasks',JSON.stringify(filteredTasks));
   }
 
   // helper - find index of task based on id

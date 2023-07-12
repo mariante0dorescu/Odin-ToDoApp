@@ -15,25 +15,28 @@ document.addEventListener('DOMContentLoaded', UI.addProjectsToForm(Storage.getPr
 // tasks event listeners
 const linksContainer = document.querySelector('.links__container');
 const allTasks = linksContainer.querySelector('#all');
+const tommorrowTasks = linksContainer.querySelector('#tommorow');
 const todayTasks = linksContainer.querySelector('#today');
 const nextWeekTasks = linksContainer.querySelector('#next_week');
 
 
 allTasks.addEventListener('click', () => {
-
-  UI.loadTasks("All tasks", Storage.getTodayTasks())
+  UI.loadTasks("All tasks", Storage.getTasks())
 })
 
 
 todayTasks.addEventListener('click', () => {
-
   UI.loadTasks("Today's tasks", Storage.getTodayTasks())
 })
 
+
+tommorrowTasks.addEventListener('click', () => {
+  UI.loadTasks("Tommorow tasks", Storage.getTommorowTasks())
+})
+
+
 nextWeekTasks.addEventListener('click', () => {
-
   UI.loadTasks("Next week tasks", Storage.getNextWeekTasks())
-
 })
 
 
